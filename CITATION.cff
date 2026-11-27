@@ -5,4 +5,8 @@ type: software
 authors:
   - family-names: Li
     given-names: He
+    affiliation: Muroran Institute of Technology
 version: 0.1.0
+repository-code: https://github.com/heli-cs/goldbach-short-intervals-lean
+license: Apache-2.0
+date-released: 2026-11-27

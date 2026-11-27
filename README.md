@@ -1,5 +1,7 @@
 # Goldbach short intervals in Lean
 
+[![Build and kernel replay](https://github.com/heli-cs/goldbach-short-intervals-lean/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/heli-cs/goldbach-short-intervals-lean/actions/workflows/build.yml)
+
 This project verifies three results in Lean 4 under the Riemann hypothesis (RH).
 
 | Lean theorem | Statement |
@@ -9,6 +11,12 @@ This project verifies three results in Lean 4 under the Riemann hypothesis (RH).
 | `goldbach_log_sq_optimal` | For all real $x\ge 4$, the least uniform coefficient of $(\log x)^2$ is $2/(\log 4)^2$. |
 
 See the exact statements in [RemainingCoverage.lean](Goldbach/Explicit/RemainingCoverage.lean).
+
+## What is assumed
+
+The final theorems take Mathlib's `RiemannHypothesis` as their sole mathematical hypothesis. [Definitional check](Goldbach/Explicit/Check.lean#L433-L434)
+
+In Vynohradov's v0.6 Lean version, `goldbach_log_sq_main` also takes the Schoenfeld bound under RH, the explicit formula for $\psi$, verification of even Goldbach up to $4\cdot10^{18}$, and `Prop13T` as hypotheses. [Vynohradov's Lean declaration](https://github.com/anser-software/goldbach-numbers-in-short-intervals/blob/3c49c0fd83ccbc3429d2a9068c4f2d1a56f2ebf1/lean/GoldbachRH/Main.lean#L163-L171)
 
 ## Proof and certificates
 
@@ -31,4 +39,12 @@ The verified certificate sources are included. To regenerate the sixteen cutoff 
 
 ## Attribution
 
-The analytic argument builds on Anton Vynohradov's compact-kernel approach and He Li's independent first-moment refinement. Vynohradov credits the refinement in §1.1 and reference [10] of v2. The project was developed with AI assistance. [Vynohradov v2](https://hexagonmath.org/2611.00885v2) · [He Li's first-moment refinement](https://github.com/anser-software/goldbach-numbers-in-short-intervals/issues/1)
+The analytic argument builds on Anton Vynohradov's compact-kernel approach and He Li's independent first-moment refinement. Vynohradov credits the refinement in §1.1 and reference [10] of v2. [Vynohradov v2](https://hexagonmath.org/2611.00885v2) · [He Li's first-moment refinement](https://github.com/anser-software/goldbach-numbers-in-short-intervals/issues/1)
+
+Lean formalization developed with OpenAI Codex; mathematical development with assistance from Claude and ChatGPT. All proofs are checked by the Lean kernel.
+
+## License
+
+Copyright 2026 He Li. This project is licensed under the [Apache License, Version 2.0](LICENSE).
+
+Mathlib and Zeta23 (`anthropics/formal-math`) retain their respective upstream Apache-2.0 licenses. [Mathlib license](https://github.com/leanprover-community/mathlib4/blob/51e6992efd06126df61a496bebf8f49482a4e129/LICENSE) · [Zeta23 license](https://github.com/anthropics/formal-math/blob/11b6c7e3c927df2658f513b6b68ea7f8929c62c5/zeta23/LICENSE)
