@@ -1,0 +1,124 @@
+name: Build and kernel replay
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certificate-blocks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        block: [0, 1, 2, 3, 4, 5, 6, 7]
+    env:
+      LEAN_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+
+      - uses: leanprover/lean-action@ba3fdfe5c4476c925da13bf11a005ddb47e47aee # v1.7.1
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+
+      - name: Build the certificate block
+        shell: bash
+        env:
+          CERTIFICATE_BLOCK: ${{ matrix.block }}
+        run: |
+          for kind in Inner Outer; do
+            lake build "+Goldbach.Explicit.CutoffData.${kind}${CERTIFICATE_BLOCK}"
+          done
+          stage="$RUNNER_TEMP/certificate-build"
+          mkdir -p "$stage"
+          cd .lake/build
+          shopt -s nullglob
+          for kind in Inner Outer; do
+            module="Goldbach/Explicit/CutoffData/${kind}${CERTIFICATE_BLOCK}"
+            test -f "lib/lean/$module.olean"
+            cp --parents "lib/lean/$module".* "ir/$module".* "$stage"
+          done
+
+      - name: Upload the certificate build outputs
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: certificate-build-${{ matrix.block }}
+          path: ${{ runner.temp }}/certificate-build
+          retention-days: 1
+          compression-level: 3
+          overwrite: true
+          if-no-files-found: error
+
+  build:
+    needs: certificate-blocks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    env:
+      LEAN_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+
+      - name: Check runner resources
+        shell: bash
+        run: |
+          available_kib=$(df -Pk . | awk 'NR == 2 {print $4}')
+          if (( available_kib < 16 * 1024 * 1024 )); then
+            sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
+          fi
+          df -h .
+          free -h
+
+      - uses: leanprover/lean-action@ba3fdfe5c4476c925da13bf11a005ddb47e47aee # v1.7.1
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+
+      - name: Download the certificate build outputs
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: certificate-build-*
+          path: .lake/build
+          merge-multiple: true
+
+      - name: Build
+        shell: bash
+        run: |
+          test "$(find .lake/build/lib/lean/Goldbach/Explicit/CutoffData -maxdepth 1 -type f -name '*.olean' | wc -l)" -eq 16
+          lake build +Goldbach +Goldbach.Check +Goldbach.Explicit.Check
+
+      - name: Replay the proof dependencies
+        id: replay
+        shell: bash
+        run: |
+          set -o pipefail
+          lake env lean --run Goldbach/Replay.lean Goldbach.Explicit.RemainingCoverage remainingGoldbachIntervalCoverage goldbach_short_interval_explicit goldbach_short_interval_max goldbach_log_sq_optimal goldbach_short_interval_certified_prefix_to_cutoff goldbach_short_interval_explicit_of_exp28 goldbach_log_sq_real_cover_iff_even 2>&1 | tee replay.log
+          grep -Fx 'Fresh kernel replay of the dependency closure passed.' replay.log
+          grep -Fx 'Axioms: #[propext, Classical.choice, Quot.sound]' replay.log
+
+      - name: Upload the replay log
+        if: ${{ always() && steps.replay.outcome != 'skipped' }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: kernel-replay
+          path: replay.log
+          overwrite: true
+          if-no-files-found: error

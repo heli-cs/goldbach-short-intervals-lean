@@ -430,6 +430,9 @@ example (hRH : RiemannHypothesis) (hfin : FiniteGoldbachExplicitRange) :
 #print axioms goldbach_short_interval_two_of_remaining_intervals
 #print axioms goldbach_short_interval_two_of_finite
 
+example : RiemannHypothesis ↔ ∀ s : ℂ, riemannZeta s = 0 →
+    (¬∃ n : ℕ, s = -2 * (n + 1)) → s ≠ 1 → s.re = 1 / 2 := Iff.rfl
+
 example : RiemannHypothesis → RemainingGoldbachIntervalCoverage :=
   remainingGoldbachIntervalCoverage
 
