@@ -1,0 +1,2285 @@
+Explicit Goldbach verification
+2026-11-25T16:20:50.6494241+09:00
+leanprover/lean4:v4.33.0-rc2
+Lean (version 4.33.0-rc2, x86_64-w64-windows-gnu, commit d8b18978322de05a8f3dba51ef03cf5461676c17, Release)
+Lake version 5.0.0-src+d8b1897 (Lean version 4.33.0-rc2)
+Branch explicit-goldbach-v6
+
+Locked dependency revisions
+Zeta23 11b6c7e3c927df2658f513b6b68ea7f8929c62c5 zeta23
+mathlib 51e6992efd06126df61a496bebf8f49482a4e129 
+plausible 123d15766ba49356c02ebad2a4462dfe12d79899 
+LeanSearchClient f5c090429dff3cf66cb65562526c9ea6e8edfbcb 
+importGraph bb3469a87774349fe01898d8bf2fc6a1ce6411ca 
+proofwidgets 222c58dad7706a6e7cae46c0edd65ea881d3ee27 
+aesop 7db8190085343afde2f5d2cdcc9bac719b6ec02c 
+Qq ef42f8944eaf5b6cbfbe75d1917d824c7dd6cf33 
+batteries 76e1c118b0700b4ceafe99532e887d6431625e1a 
+Cli 1319485273bf87833fa472afbcefdedecb16b45f 
+
+Installed package revisions checked with Git
+Mathlib 51e6992efd06126df61a496bebf8f49482a4e129
+
+Zeta23 11b6c7e3c927df2658f513b6b68ea7f8929c62c5
+
+
+# Individual component builds
+Build 02
+⚠ [8786/8823] Built Goldbach.Explicit.PoleConstant (50s)
+⚠ [8788/8823] Built Goldbach.Explicit.CosineKernel (50s)
+⚠ [8789/8823] Built Goldbach.Explicit.NumericalBounds (51s)
+Build 04
+⚠ [8784/8785] Built Goldbach.Explicit.PoleSum (41s)
+✔ [8785/8785] Built Goldbach.Explicit.Archimedean (41s)
+Build 07
+✔ [8700/8700] Built Goldbach.Explicit.Reflection (31s)
+Build 08
+⚠ [8704/8705] Built Goldbach.Explicit.PrimeDiagonal (37s)
+⚠ [8705/8705] Built Goldbach.Explicit.CosineTransform (38s)
+Build 12
+⚠ [8705/8705] Built Goldbach.Explicit.CosineDecay (44s)
+Build 15
+⚠ [8798/8799] Built Goldbach.Explicit.SpectralTransfer (39s)
+⚠ [8799/8799] Built Goldbach.Explicit.ZeroCount (42s)
+Build 18
+✔ [8793/8793] Built Goldbach.Explicit.PoleEstimate (41s)
+Build 20
+⚠ [8760/8761] Built Goldbach.Explicit.CosineMoment (39s)
+✔ [8761/8761] Built Goldbach.Explicit.GammaConvolution (36s)
+Build 21
+✔ [8780/8781] Built Goldbach.Explicit.CompactSchur (40s)
+Build 22
+✔ [8779/8780] Built Goldbach.Explicit.ZeroIntegration (40s)
+✔ [8780/8780] Built Goldbach.Explicit.InverseTestTransform (41s)
+Build 24
+✔ [8697/8697] Built Goldbach.Explicit.Constants (36s)
+Build 28
+✔ [8701/8702] Built Goldbach.Explicit.Variation (35s)
+✔ [8702/8702] Built Goldbach.Explicit.WeightedVariation (38s)
+
+# Pinned project build
+lake --packages=.lake/explicit-cache.json --no-cache build +Goldbach +Goldbach.Explicit.Check
+2026-11-25T16:20:51.2823860+09:00
+✔ [8844/8845] Built Goldbach.Explicit (36s)
+ℹ [8845/8845] Built Goldbach.Explicit.Check (34s)
+Build completed successfully (8845 jobs).
+Project build exit 0, elapsed 00:01:24.5720235
+
+# Independent theorem-type and axiom check
+lake env lean Goldbach/Explicit/Check.lean
+2026-11-25T16:22:15.8749895+09:00
+cosineWeight_even : ∀ (V : ℝ), Function.Even (cosineWeight V)
+cosineWeight_hasCompactSupport : ∀ (V : ℝ), HasCompactSupport (cosineWeight V)
+@cosineWeight_antitoneOn : ∀ {V : ℝ}, 0 < V → AntitoneOn (cosineWeight V) (Icc 0 V)
+@cosineWeight_nonneg : ∀ {V : ℝ}, 0 < V → ∀ (v : ℝ), 0 ≤ cosineWeight V v
+@cosineWeight_le_one : ∀ {V : ℝ}, 0 < V → ∀ (v : ℝ), cosineWeight V v ≤ 1
+@cosineWeight_quadratic : ∀ {V : ℝ}, 0 < V → ∀ (v : ℝ), 1 - Real.pi ^ 2 * v ^ 2 / (2 * V ^ 2) ≤ cosineWeight V v
+@continuous_cosineWeight : ∀ {V : ℝ}, 0 < V → Continuous (cosineWeight V)
+@weighted_reflection_of_no_goldbach : ∀ {V x A d : ℝ},
+  0 < V →
+    0 < A →
+      0 < d →
+        ¬HasGoldbach x (d * x) →
+          (2 * ∫ (y : ℝ) in Icc A (x - A), reflectedWeight V x y * density d y) -
+              ∫ (y : ℝ) in Icc A (x - A), reflectedWeight V x y ≤
+            ∫ (y : ℝ) in Icc A (x - A), upperWeight V x y * (density d y - 1) ^ 2
+gammaBracket_le_log_abs_add : ∀ (t : ℝ), Zeta23.EF.gammaBracket t ≤ Real.log (|t| + 5 / 2)
+@gamma_average_le_log_add_three : ∀ {p : ℝ → ℝ} (t : ℝ),
+  (∀ (s : ℝ), 0 ≤ p s) →
+    Integrable p volume →
+      ∫ (s : ℝ), p s = 1 →
+        Integrable (fun s => p s * s ^ 2) volume →
+          ∫ (s : ℝ), p s * s ^ 2 ≤ 1 / 4 →
+            Integrable (fun s => p s * Zeta23.EF.gammaBracket (t + s)) volume →
+              ∫ (s : ℝ), p s * Zeta23.EF.gammaBracket (t + s) ≤ Real.log (|t| + 3)
+reciprocal_zero_sum : RiemannHypothesis →
+  Summable reciprocalZeroTerm ∧
+    ∑' (ρ : ↑Zeros), reciprocalZeroTerm ρ = 2 + Real.eulerMascheroniConstant - Real.log (4 * Real.pi)
+reciprocal_zero_sum_lt : RiemannHypothesis → ∑' (ρ : ↑Zeros), reciprocalZeroTerm ρ < 47 / 1000
+ordinate_abs_gt_nine_halves : RiemannHypothesis → ∀ (ρ : ↑Zeros), 9 / 2 < |ordinate ρ|
+inverse_square_zero_sum_lt : RiemannHypothesis →
+  (Summable fun ρ => GoldbachZeros.multiplicity ρ / ordinate ρ ^ 2) ∧
+    ∑' (ρ : ↑Zeros), GoldbachZeros.multiplicity ρ / ordinate ρ ^ 2 < 48 / 1000
+margin_at_forty_two : 145 < margin 42
+margin_strictMonoOn : StrictMonoOn margin (Ici 42)
+@upper_expression_lt_lower_expression : ∀ {L : ℝ}, 42 ≤ L → (L - 2 * Real.log L) ^ 2 + 3 * L + 7 < L ^ 2 - 7 * L
+cosine_loss_constant_lt : Real.pi ^ 2 / 6 * (Real.log 2 ^ 2 + 2 * Real.log 2 + 2) < 6361 / 1000
+@delta_lt : ∀ {L : ℝ}, 42 ≤ L → delta L < 2 / 10 ^ 15
+@delta_exp_bandwidth_lt : ∀ {L : ℝ}, 42 ≤ L → delta L * Real.exp (bandwidth L) < 1 / 10 ^ 8
+@delta_exp_half_bandwidth_lt : ∀ {L : ℝ}, 42 ≤ L → delta L * Real.exp (bandwidth L / 2) < 1 / 10 ^ 11
+'GoldbachExplicit.cosineWeight_even' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.cosineWeight_hasCompactSupport' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.cosineWeight_antitoneOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.cosineWeight_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.cosineWeight_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.cosineWeight_quadratic' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.continuous_cosineWeight' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.weighted_reflection_of_no_goldbach' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.gammaBracket_le_log_abs_add' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.gamma_average_le_log_add_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.reciprocal_zero_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.reciprocal_zero_sum_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.ordinate_abs_gt_nine_halves' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.inverse_square_zero_sum_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.margin_at_forty_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.margin_strictMonoOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.upper_expression_lt_lower_expression' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.cosine_loss_constant_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.delta_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.delta_exp_bandwidth_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.delta_exp_half_bandwidth_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+cosineBump_hasCompactSupport : ∀ (V : ℝ), HasCompactSupport (cosineBump V)
+@continuous_cosineBump : ∀ {V : ℝ}, 0 < V → Continuous (cosineBump V)
+@cosineWeight_eq_autocorr : ∀ {V : ℝ},
+  0 < V → ∀ (v : ℝ), cosineWeight V v = 2 / V * Zeta23.Params.autocorr (cosineBump V) v
+@cosineTransform_eq : ∀ {V : ℝ}, 0 < V → ∀ (z : ℂ), cosineTransform V z = ↑(2 / V) * bumpTransform V z ^ 2
+@cosineTransform_ofReal_nonneg : ∀ {V : ℝ}, 0 < V → ∀ (t : ℝ), 0 ≤ (cosineTransform V ↑t).re
+@norm_cosineTransform_pole_le : ∀ {V : ℝ},
+  0 < V →
+    ∀ (t σ : ℝ), |σ| = 1 / 2 → ‖cosineTransform V (↑t + ↑σ * Complex.I)‖ ≤ 8 * Real.exp (V / 2) / (V * (t ^ 2 + 1 / 4))
+@cosineTransform_real_integral : ∀ {V : ℝ},
+  0 < V → Integrable (fun t => (cosineTransform V ↑t).re) volume ∧ ∫ (t : ℝ), (cosineTransform V ↑t).re = 2 * Real.pi
+@cosineTransform_second_moment : ∀ {V : ℝ},
+  0 < V →
+    Integrable (fun t => GoldbachExplicit.K✝ V t * t ^ 2) volume ∧
+      ∫ (t : ℝ), GoldbachExplicit.K✝ V t * t ^ 2 = 2 * Real.pi * (Real.pi ^ 2 / V ^ 2)
+@cosine_gamma_average_le : ∀ {V : ℝ},
+  2 * Real.pi ≤ V →
+    ∀ (t : ℝ),
+      Integrable (fun s => (cosineTransform V ↑s).re / (2 * Real.pi) * Zeta23.EF.gammaBracket (t + s)) volume ∧
+        ∫ (s : ℝ), (cosineTransform V ↑s).re / (2 * Real.pi) * Zeta23.EF.gammaBracket (t + s) ≤ Real.log (|t| + 3)
+pole_contribution_lt_delta : RiemannHypothesis →
+  ∀ {L : ℝ}, 42 ≤ L → Summable (poleTerm L) ∧ ∑' (ρ : ↑Zeros), poleTerm L ρ < delta L
+cumulative_zero_count_le : RiemannHypothesis →
+  ∀ {T : ℝ}, 0 ≤ T → |↑(Zeta23.Ncount 0 T) - zeroCountMain T| ≤ 250 * Real.log (T + 2)
+compact_weight_spectral_identification : RiemannHypothesis →
+  ∀ {lam a b : ℝ},
+    0 < lam →
+      lam ≤ 1 →
+        0 < a →
+          a ≤ b →
+            ∀ {W : ℝ → ℝ},
+              Measurable W →
+                (∀ u ∈ Icc a b, 0 ≤ W u ∧ W u ≤ 1) →
+                  (∀ (T : ℝ),
+                      IntegrableOn
+                        (fun u =>
+                          W u *
+                            ‖↑(GoldbachSpectrum.sharpSpectralValue lam u) -
+                                  GoldbachSpectrum.partialSum (GoldbachSpectrum.sharpCoefficient lam) T u‖ ^
+                              2)
+                        (Icc a b) volume) ∧
+                    Filter.Tendsto
+                      (fun T =>
+                        ∫ (u : ℝ) in Icc a b,
+                          W u *
+                            ‖↑(GoldbachSpectrum.sharpSpectralValue lam u) -
+                                  GoldbachSpectrum.partialSum (GoldbachSpectrum.sharpCoefficient lam) T u‖ ^
+                              2)
+                      Filter.atTop (nhds 0)
+@integral_cosine_norm_sq_le_schur : ∀ {ι : Type u_1} (s : Finset ι) {V : ℝ},
+  0 < V →
+    ∀ (z : ℝ) (γ m : ι → ℝ) (a : ι → ℂ),
+      (∀ (i : ι), 0 ≤ m i) →
+        ∫ (u : ℝ), cosineWeight V (u - z) * ‖∑ i ∈ s, ↑(m i) * a i * GoldbachGaussian.wave (γ i) u‖ ^ 2 ≤
+          ∑ i ∈ s, m i * ‖a i‖ ^ 2 * ∑ j ∈ s, m j * cosineKernel V (γ i - γ j)
+@translated_inverseTest_diagonal : ∀ {lam : ℝ} {n m : ℕ},
+  0 ≤ lam →
+    2 ≤ n →
+      2 ≤ m →
+        lam * (↑n + 1) < 1 →
+          (inverseTest lam (Real.log ↑m - Real.log ↑n) + inverseTest lam (Real.log ↑m + Real.log ↑n)) / 2 =
+            if m = n then (Real.exp lam - 1) / 2 else 0
+@inverseTest_paperFT : ∀ {lam : ℝ},
+  0 ≤ lam → ∀ (t : ℝ), Zeta23.paperFT (fun u => ↑(inverseTest lam u)) ↑t = ↑(‖GoldbachSpectrum.coefficient lam t‖ ^ 2)
+@psi_sub_eq_vonMangoldt : ∀ {a b : ℝ} {n : ℕ},
+  0 < n →
+    0 ≤ a →
+      ↑n - 1 ≤ a → a < ↑n → ↑n ≤ b → b < ↑n + 1 → Chebyshev.psi b - Chebyshev.psi a = ArithmeticFunction.vonMangoldt n
+@zero_window_integration_by_parts : ∀ {a b : ℝ} {f : ℝ → ℝ},
+  ContDiff ℝ 1 f →
+    ∑ ρ ∈ zeroWindow a b, GoldbachZeros.multiplicity ρ * f (ordinate ρ) =
+      f b * ↑(Zeta23.Ncount a b) - ∫ (t : ℝ) in Ioc a b, deriv f t * ↑(Zeta23.Ncount a t)
+spectral_discrepancy_boundary_tendsto : RiemannHypothesis →
+  ∀ {lam : ℝ},
+    0 ≤ lam →
+      lam ≤ 1 →
+        Filter.Tendsto
+          (fun T =>
+            ‖GoldbachSpectrum.coefficient lam T‖ ^ 2 * Real.log (T + 3) * (↑(Zeta23.Ncount 0 T) - zeroCountMain T))
+          Filter.atTop (nhds 0)
+prime_coefficient_lt : 624 / 100 / Real.pi ^ 2 < 633 / 1000
+rational_tail_integral_coefficient_lt : (Real.log (2 * Real.pi) ^ 2 + 2 * Real.log (2 * Real.pi) + 2) / Real.pi ^ 2 < 1
+'GoldbachExplicit.cosineBump_hasCompactSupport' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.continuous_cosineBump' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.cosineWeight_eq_autocorr' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.cosineTransform_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.cosineTransform_ofReal_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.norm_cosineTransform_pole_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.cosineTransform_real_integral' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.cosineTransform_second_moment' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.cosine_gamma_average_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.pole_contribution_lt_delta' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.cumulative_zero_count_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.compact_weight_spectral_identification' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.integral_cosine_norm_sq_le_schur' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.translated_inverseTest_diagonal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.inverseTest_paperFT' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.psi_sub_eq_vonMangoldt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.zero_window_integration_by_parts' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.spectral_discrepancy_boundary_tendsto' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.prime_coefficient_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.rational_tail_integral_coefficient_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+@integral_abs_sub_translate_le : ∀ {q : ℝ → ℝ} {a b c d : ℝ},
+  a ≤ c →
+    c ≤ b →
+      0 ≤ d →
+        MonotoneOn q (Iic c) →
+          AntitoneOn q (Ici c) →
+            (∀ s ≤ a, q s = 0) →
+              (∀ (s : ℝ), b ≤ s → q s = 0) →
+                q c ≤ 1 → Integrable (fun s => |q (s - d) - q s|) volume ∧ ∫ (s : ℝ), |q (s - d) - q s| ≤ 2 * d
+@trimmed_log_weight_translation_le : ∀ {V x A lam : ℝ},
+  0 < V →
+    0 < A →
+      A ≤ x / 2 →
+        0 ≤ lam →
+          Integrable (fun s => |trimmedLogWeight V x A (s - lam) - trimmedLogWeight V x A s|) volume ∧
+            ∫ (s : ℝ), |trimmedLogWeight V x A (s - lam) - trimmedLogWeight V x A s| ≤ 2 * lam
+'GoldbachExplicit.integral_abs_sub_translate_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'GoldbachExplicit.trimmed_log_weight_translation_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+Independent check exit 0, elapsed 00:01:03.2551691
+
+# Strict lower variance and analytic inputs
+2026-11-26T16:04:48.1630264+09:00
+Pinned toolchain and dependencies as above
+lake build +Goldbach +Goldbach.Explicit.Check
+info: Goldbach/Explicit/Check.lean:155:0: @reflected_weight_mass_ge : ∀ {V x A : ℝ},
+  0 < V →
+    0 < A →
+      A ≤ x / 2 →
+        x - 2 * A - Real.pi ^ 2 / (2 * V ^ 2) * (x * (Real.log 2 ^ 2 + 2 * Real.log 2 + 2)) ≤
+          ∫ (y : ℝ) in Icc A (x - A), reflectedWeight V x y
+info: Goldbach/Explicit/Check.lean:156:0: @weighted_firstMoment_abs_le : ∀ {V x A d E : ℝ},
+  0 < V →
+    2 ≤ A →
+      A ≤ x / 2 →
+        0 < d →
+          0 ≤ E →
+            (∀ t ∈ Icc A ((1 + d) * (x - A)), |Chebyshev.theta t - t| ≤ E) →
+              |∫ (y : ℝ) in Icc A (x - A), reflectedWeight V x y * (density d y - 1)| ≤ 2 * E
+info: Goldbach/Explicit/Check.lean:157:0: sharpSpectralValue_memLp : RiemannHypothesis →
+  ∀ {lam a b : ℝ},
+    0 < lam →
+      lam ≤ 1 →
+        0 < a → a ≤ b → MemLp (fun u => ↑(GoldbachSpectrum.sharpSpectralValue lam u)) 2 (volume.restrict (Icc a b))
+info: Goldbach/Explicit/Check.lean:158:0: sharp_spectral_integral_eq_tsum : RiemannHypothesis →
+  ∀ {lam a b : ℝ},
+    0 < lam →
+      lam ≤ 1 →
+        0 < a →
+          a ≤ b →
+            ∀ {W : ℝ → ℂ},
+              MemLp W 2 (volume.restrict (Icc a b)) →
+                (Summable fun ρ =>
+                    ↑(GoldbachZeros.multiplicity ρ) * GoldbachSpectrum.sharpCoefficient lam ρ *
+                      ∫ (u : ℝ) in Icc a b, W u * GoldbachGaussian.wave (ordinate ρ) u) →
+                  ∫ (u : ℝ) in Icc a b, W u * ↑(GoldbachSpectrum.sharpSpectralValue lam u) =
+                    ∑' (ρ : ↑Zeros),
+                      ↑(GoldbachZeros.multiplicity ρ) * GoldbachSpectrum.sharpCoefficient lam ρ *
+                        ∫ (u : ℝ) in Icc a b, W u * GoldbachGaussian.wave (ordinate ρ) u
+info: Goldbach/Explicit/Check.lean:159:0: coefficient_norm_le_inv_ordinate : ∀ (e g : ℝ),
+  0 < |g| → ‖GoldbachSpectrum.coefficient e g‖ ≤ (1 + Real.exp (e / 2)) / |g|
+info: Goldbach/Explicit/Check.lean:160:0: averagedLogPsiError_sub_abs_le : RiemannHypothesis →
+  ∀ {eps a u : ℝ},
+    0 ≤ eps →
+      eps ≤ 1 →
+        0 < a →
+          a ≤ u →
+            |averagedLogPsiError eps u - averagedLogPsiError eps a| ≤ 3 / 20 * (Real.exp (u / 2) + Real.exp (a / 2))
+info: Goldbach/Explicit/Check.lean:161:0: theta_exp_error_le : RiemannHypothesis →
+  ∀ {u : ℝ}, 16 ≤ u → |Chebyshev.theta (Real.exp u) - Real.exp u| ≤ 4 * Real.exp (3 * u / 4)
+info: Goldbach/Explicit/Check.lean:162:0: @first_moment_error_lt_trimmed_endpoint : ∀ {L : ℝ}, 42 ≤ L → 16 * Real.exp (3 * L / 4) < Real.exp L / L ^ 2
+info: Goldbach/Explicit/Check.lean:163:0: explicit_firstMoment_abs_lt : RiemannHypothesis →
+  ∀ {L : ℝ},
+    42 ≤ L →
+      |∫ (y : ℝ) in Icc (trimmedEndpoint L) (Real.exp L - trimmedEndpoint L),
+            reflectedWeight (bandwidth L) (Real.exp L) y * (density (delta L) y - 1)| <
+        trimmedEndpoint L / 2
+info: Goldbach/Explicit/Check.lean:164:0: explicit_variance_gt_of_no_goldbach : RiemannHypothesis →
+  ∀ {L : ℝ}, 42 ≤ L → ¬HasGoldbach (Real.exp L) (L ^ 2) → delta L * (L ^ 2 - 7 * L) < weightedVariance L
+info: Goldbach/Explicit/Check.lean:166:0: 'GoldbachExplicit.reflected_weight_mass_ge' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:167:0: 'GoldbachExplicit.weighted_firstMoment_abs_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:168:0: 'GoldbachExplicit.sharpSpectralValue_memLp' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:169:0: 'GoldbachExplicit.sharp_spectral_integral_eq_tsum' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:170:0: 'GoldbachExplicit.coefficient_norm_le_inv_ordinate' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:171:0: 'GoldbachExplicit.averagedLogPsiError_sub_abs_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:172:0: 'GoldbachExplicit.theta_exp_error_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:173:0: 'GoldbachExplicit.first_moment_error_lt_trimmed_endpoint' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:174:0: 'GoldbachExplicit.explicit_firstMoment_abs_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:175:0: 'GoldbachExplicit.explicit_variance_gt_of_no_goldbach' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (8851 jobs).
+Build exit 0
+
+# Spectral upper bound, correction terms and exact RH-only analytic-range theorem
+lake --packages=.lake/explicit-cache.json --no-cache build +Goldbach +Goldbach.Explicit.Check
+info: Goldbach/Explicit/Check.lean:177:0: @contDiff_two_cosineWeight : ∀ {V : ℝ}, 0 < V → ContDiff ℝ 2 (cosineWeight V)
+info: Goldbach/Explicit/Check.lean:178:0: @cosineWeight_hasDerivAt_on : ∀ {V x : ℝ},
+  0 < V → x ∈ Icc 0 V → HasDerivAt (cosineWeight V) (-(Real.pi * (1 - x / V) * Real.sin (Real.pi * (x / V))) / V) x
+info: Goldbach/Explicit/Check.lean:179:0: cosine_row_formula : RiemannHypothesis →
+  ∀ {V : ℝ},
+    0 < V →
+      ∀ (t : ℝ),
+        (Summable fun ρ => GoldbachZeros.multiplicity ρ * cosineKernel V (t - ordinate ρ)) ∧
+          cosineRow V t =
+            (polePair V t).re + cosineArchimedean V t -
+              2 * ∑ n ∈ Finset.Ioc 0 ⌊Real.exp V⌋₊, cosinePrimeWeight V n * Real.cos (t * Real.log ↑n)
+info: Goldbach/Explicit/Check.lean:180:0: prime_trace_lower : RiemannHypothesis →
+  ∀ {lam : ℝ} {n : ℕ},
+    0 < lam →
+      lam ≤ 1 →
+        2 ≤ n →
+          Real.exp lam ≤ 4 / 3 →
+            (Real.exp lam - 1) * ↑n < 1 →
+              -(Real.exp lam - 1) * ArithmeticFunction.vonMangoldt n * Real.exp (-Real.log ↑n / 2) ≤
+                ∑' (ρ : ↑Zeros),
+                  GoldbachZeros.multiplicity ρ * ‖GoldbachSpectrum.sharpCoefficient lam ρ‖ ^ 2 *
+                    Real.cos (ordinate ρ * Real.log ↑n)
+info: Goldbach/Explicit/Check.lean:181:0: cosine_sharp_meanSquare_le : RiemannHypothesis →
+  ∀ {lam a b V : ℝ},
+    0 < lam →
+      lam ≤ 1 →
+        0 < a →
+          a ≤ b →
+            0 < V →
+              ∀ (z : ℝ),
+                Summable (cosineEnergy V lam) →
+                  ∫ (u : ℝ) in Icc a b, cosineWeight V (u - z) * ‖↑(GoldbachSpectrum.sharpSpectralValue lam u)‖ ^ 2 ≤
+                    ∑' (ρ : ↑Zeros), cosineEnergy V lam ρ
+info: Goldbach/Explicit/Check.lean:182:0: cosine_energy_le : RiemannHypothesis →
+  ∀ {L : ℝ},
+    42 ≤ L →
+      Summable (cosineEnergy (bandwidth L) (logWidth L)) ∧
+        ∑' (ρ : ↑Zeros), cosineEnergy (bandwidth L) (logWidth L) ρ <
+          archimedeanZeroSum (logWidth L) + delta L + 2 * delta L * weightedMangoldtSquares (bandwidth L)
+info: Goldbach/Explicit/Check.lean:183:0: @coefficient_sq_integral : ∀ {lam : ℝ},
+  0 ≤ lam →
+    lam ≤ 1 →
+      Integrable (fun t => ‖GoldbachSpectrum.coefficient lam t‖ ^ 2) volume ∧
+        ∫ (t : ℝ), ‖GoldbachSpectrum.coefficient lam t‖ ^ 2 = 2 * Real.pi * (Real.exp lam - 1)
+info: Goldbach/Explicit/Check.lean:184:0: @coefficient_sq_integral_positive : ∀ {lam : ℝ},
+  0 ≤ lam → lam ≤ 1 → ∫ (t : ℝ) in Ioi 0, ‖GoldbachSpectrum.coefficient lam t‖ ^ 2 = Real.pi * (Real.exp lam - 1)
+info: Goldbach/Explicit/Check.lean:185:0: log_pow_div_sq_integral : ∀ (k : ℕ),
+  IntegrableOn (fun t => Real.log t ^ k / t ^ 2) (Ioi 1) volume ∧
+    ∫ (t : ℝ) in Ioi 1, Real.log t ^ k / t ^ 2 = ↑k.factorial
+info: Goldbach/Explicit/Check.lean:186:0: log_sq_integral_near_zero : IntegrableOn (fun t => Real.log t ^ 2) (Ioc 0 1) volume ∧
+  ∫ (t : ℝ) in Ioc 0 1, Real.log t ^ 2 = 2
+info: Goldbach/Explicit/Check.lean:187:0: @integral_log_sq_le_of_envelope : ∀ {f : ℝ → ℝ},
+  Measurable f →
+    IntegrableOn f (Ioi 0) volume →
+      ∀ {B C : ℝ},
+        0 ≤ B →
+          0 ≤ C →
+            (∀ t > 0, 0 ≤ f t) →
+              (∀ t > 0, f t ≤ C) →
+                (∀ t > 0, f t ≤ 4 * C / t ^ 2) →
+                  IntegrableOn (fun t => f t * (B + Real.log t) ^ 2) (Ioi 0) volume ∧
+                    ∫ (t : ℝ) in Ioi 0, f t * (B + Real.log t) ^ 2 ≤
+                      (B ^ 2 * ∫ (t : ℝ) in Ioi 0, f t) + C * (8 * B + 10)
+info: Goldbach/Explicit/Check.lean:188:0: @coefficient_log_square_integral_le : ∀ {lam : ℝ},
+  0 < lam →
+    lam ≤ 1 →
+      IntegrableOn (fun t => ‖GoldbachSpectrum.coefficient lam t‖ ^ 2 * Real.log t ^ 2) (Ioi 0) volume ∧
+        ∫ (t : ℝ) in Ioi 0, ‖GoldbachSpectrum.coefficient lam t‖ ^ 2 * Real.log t ^ 2 ≤
+          Real.pi * (Real.exp lam - 1) * (-Real.log lam) ^ 2 + lam * Real.exp lam * (8 * -Real.log lam + 10)
+info: Goldbach/Explicit/Check.lean:190:0: 'GoldbachExplicit.contDiff_two_cosineWeight' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:191:0: 'GoldbachExplicit.cosineWeight_hasDerivAt_on' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:192:0: 'GoldbachExplicit.cosine_row_formula' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:193:0: 'GoldbachExplicit.prime_trace_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:194:0: 'GoldbachExplicit.cosine_sharp_meanSquare_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:195:0: 'GoldbachExplicit.cosine_energy_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:196:0: 'GoldbachExplicit.coefficient_sq_integral' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:197:0: 'GoldbachExplicit.coefficient_sq_integral_positive' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:198:0: 'GoldbachExplicit.log_pow_div_sq_integral' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:199:0: 'GoldbachExplicit.log_sq_integral_near_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:200:0: 'GoldbachExplicit.integral_log_sq_le_of_envelope' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:201:0: 'GoldbachExplicit.coefficient_log_square_integral_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:209:0: coefficient_sq_eq_quotient : ∀ (lam t : ℝ),
+  ‖GoldbachSpectrum.coefficient lam t‖ ^ 2 = sharpNumerator lam t / (t ^ 2 + 1 / 4)
+info: Goldbach/Explicit/Check.lean:210:0: contDiff_coefficient_sq : ∀ (lam : ℝ), ContDiff ℝ 1 fun t => ‖GoldbachSpectrum.coefficient lam t‖ ^ 2
+info: Goldbach/Explicit/Check.lean:211:0: @coefficient_sq_tail_le : ∀ {lam t : ℝ},
+  Real.exp (lam / 2) ≤ 11 / 10 → 0 < t → ‖GoldbachSpectrum.coefficient lam t‖ ^ 2 ≤ 5 / t ^ 2
+info: Goldbach/Explicit/Check.lean:212:0: @coefficient_sq_tail_deriv_le : ∀ {lam t : ℝ},
+  0 ≤ lam →
+    Real.exp (lam / 2) ≤ 11 / 10 →
+      0 < t → |deriv (fun s => ‖GoldbachSpectrum.coefficient lam s‖ ^ 2) t| ≤ 3 * lam / t ^ 2 + 10 / t ^ 3
+info: Goldbach/Explicit/Check.lean:213:0: @coefficient_sq_uniform_le : ∀ {lam : ℝ},
+  0 ≤ lam → ∀ (t : ℝ), ‖GoldbachSpectrum.coefficient lam t‖ ^ 2 ≤ lam ^ 2 * Real.exp lam
+info: Goldbach/Explicit/Check.lean:214:0: @coefficient_sq_uniform_deriv_le : ∀ {lam : ℝ},
+  0 ≤ lam → ∀ (t : ℝ), |deriv (fun s => ‖GoldbachSpectrum.coefficient lam s‖ ^ 2) t| ≤ lam ^ 3 * Real.exp lam
+info: Goldbach/Explicit/Check.lean:215:0: @counting_derivative_integral_le : ∀ {lam : ℝ},
+  0 < lam →
+    lam ≤ 1 / 10 →
+      IntegrableOn (countErrorIntegrand lam) (Ioi 0) volume ∧
+        ∫ (t : ℝ) in Ioi 0, countErrorIntegrand lam t ≤ 100 * lam ^ 2 * (Real.log lam⁻¹ + 1) ^ 2
+info: Goldbach/Explicit/Check.lean:216:0: zeroCountMain_hasDerivAt : ∀ (t : ℝ), HasDerivAt zeroCountMain (clippedZeroDensity t) t
+info: Goldbach/Explicit/Check.lean:217:0: @log_mul_clippedZeroDensity_le : ∀ {t : ℝ},
+  0 ≤ t → Real.log (t + 3) * clippedZeroDensity t ≤ Real.log t ^ 2 / (2 * Real.pi)
+info: Goldbach/Explicit/Check.lean:218:0: finite_logarithmic_zero_sum_le : RiemannHypothesis →
+  ∀ {lam T : ℝ},
+    0 < lam →
+      lam ≤ 1 / 10 →
+        0 ≤ T →
+          ∑ ρ ∈ zeroWindow 0 T, GoldbachZeros.multiplicity ρ * logarithmicCoefficient lam (ordinate ρ) ≤
+            logarithmicCoefficient lam T * (↑(Zeta23.Ncount 0 T) - zeroCountMain T) +
+                (∫ (t : ℝ) in Ioi 0, ‖GoldbachSpectrum.coefficient lam t‖ ^ 2 * Real.log t ^ 2) / (2 * Real.pi) +
+              250 * ∫ (t : ℝ) in Ioi 0, countErrorIntegrand lam t
+info: Goldbach/Explicit/Check.lean:219:0: @alternative_upper_lt_lower : ∀ {L : ℝ}, 42 ≤ L → (L - 2 * Real.log L) ^ 2 + 4 * L + 105 < L ^ 2 - 7 * L
+info: Goldbach/Explicit/Check.lean:220:0: @archimedean_expression_le : ∀ {L : ℝ},
+  42 ≤ L →
+    have lam := logWidth L;
+    have B := -Real.log lam;
+    (Real.exp lam - 1) * B ^ 2 + lam * Real.exp lam * (8 * B + 10) / Real.pi + 50000 * lam ^ 2 * (B + 1) ^ 2 ≤
+      delta L * ((L - 2 * Real.log L) ^ 2 + 8 / 3 * L + 5)
+info: Goldbach/Explicit/Check.lean:221:0: @integral_cosineWeight_first_moment : ∀ {V : ℝ}, 0 < V → ∫ (s : ℝ) in 0..V, s * cosineWeight V s = V ^ 2 / Real.pi ^ 2
+info: Goldbach/Explicit/Check.lean:222:0: @integral_cosineAbelWeight_le : ∀ {V : ℝ}, 1 ≤ V → ∫ (s : ℝ) in 0..V, cosineAbelWeight V s ≤ V ^ 2 / Real.pi ^ 2 + 1 / 2
+info: Goldbach/Explicit/Check.lean:223:0: @weightedMangoldtSquares_le : ∀ {V : ℝ},
+  1 ≤ V → weightedMangoldtSquares V ≤ Real.log 4 * (V ^ 2 / Real.pi ^ 2 + 1 / 2) + 32 + 192 * (Real.pi ^ 2 / V ^ 2)
+info: Goldbach/Explicit/Check.lean:224:0: @twice_weightedMangoldtSquares_le : ∀ {L : ℝ}, 42 ≤ L → 2 * weightedMangoldtSquares (bandwidth L) ≤ L + 98
+info: Goldbach/Explicit/Check.lean:225:0: archimedeanZeroSum_log_le : RiemannHypothesis →
+  ∀ {lam : ℝ},
+    0 < lam →
+      lam ≤ 1 / 10 →
+        archimedeanZeroSum lam ≤
+          (Real.exp lam - 1) * (-Real.log lam) ^ 2 + lam * Real.exp lam * (8 * -Real.log lam + 10) / Real.pi +
+            50000 * lam ^ 2 * (-Real.log lam + 1) ^ 2
+info: Goldbach/Explicit/Check.lean:226:0: archimedeanZeroSum_explicit_le : RiemannHypothesis →
+  ∀ {L : ℝ}, 42 ≤ L → archimedeanZeroSum (logWidth L) ≤ delta L * ((L - 2 * Real.log L) ^ 2 + 8 / 3 * L + 5)
+info: Goldbach/Explicit/Check.lean:227:0: cosine_energy_explicit_le : RiemannHypothesis →
+  ∀ {L : ℝ},
+    42 ≤ L →
+      Summable (cosineEnergy (bandwidth L) (logWidth L)) ∧
+        ∑' (ρ : ↑Zeros), cosineEnergy (bandwidth L) (logWidth L) ρ <
+          delta L * ((L - 2 * Real.log L) ^ 2 + 11 / 3 * L + 104)
+info: Goldbach/Explicit/Check.lean:228:0: @sq_lt_sqrt_trimmedEndpoint : ∀ {L : ℝ}, 42 ≤ L → L ^ 2 < √(trimmedEndpoint L)
+info: Goldbach/Explicit/Check.lean:229:0: @explicit_interval_endpoints : ∀ {L y : ℝ},
+  42 ≤ L → y ∈ Icc (trimmedEndpoint L) (Real.exp L - trimmedEndpoint L) → 2 ≤ y ∧ (1 + delta L) * y ≤ Real.exp L
+info: Goldbach/Explicit/Check.lean:230:0: @explicit_primePowerIncrement_le : ∀ {L y : ℝ},
+  42 ≤ L →
+    y ∈ Icc (trimmedEndpoint L) (Real.exp L - trimmedEndpoint L) →
+      0 ≤ GoldbachArithmetic.primePowerIncrement (delta L) y ∧
+        GoldbachArithmetic.primePowerIncrement (delta L) y ≤ L ^ 2
+info: Goldbach/Explicit/Check.lean:231:0: @primePowerIncrement_integral_div_sq_le : ∀ {d a b x : ℝ},
+  0 ≤ d →
+    0 < a →
+      (1 + d) * b ≤ x →
+        IntegrableOn (fun y => GoldbachArithmetic.primePowerIncrement d y / y ^ 2) (Icc a b) volume ∧
+          ∫ (y : ℝ) in Icc a b, GoldbachArithmetic.primePowerIncrement d y / y ^ 2 ≤
+            d * ∑ n ∈ Finset.Ioc ⌊a⌋₊ ⌊x⌋₊, GoldbachArithmetic.higherPrimePowerWeight n / ↑n
+info: Goldbach/Explicit/Check.lean:232:0: @reciprocal_higherPrimePowerWeight_le : ∀ {a b : ℝ},
+  1 ≤ a → a ≤ b → ∑ n ∈ Finset.Ioc ⌊a⌋₊ ⌊b⌋₊, GoldbachArithmetic.higherPrimePowerWeight n / ↑n ≤ 4 * Real.log b / √a
+info: Goldbach/Explicit/Check.lean:233:0: @explicit_primePower_error_lt : ∀ {L : ℝ},
+  42 ≤ L →
+    have x := Real.exp L;
+    have A := trimmedEndpoint L;
+    have d := delta L;
+    IntegrableOn (fun y => GoldbachArithmetic.primePowerIncrement d y ^ 2 / y ^ 2) (Icc A (x - A)) volume ∧
+      ∫ (y : ℝ) in Icc A (x - A), GoldbachArithmetic.primePowerIncrement d y ^ 2 / y ^ 2 < d / 100
+info: Goldbach/Explicit/Check.lean:234:0: @explicit_trivialZero_error_lt : ∀ {L : ℝ},
+  42 ≤ L →
+    have x := Real.exp L;
+    have A := trimmedEndpoint L;
+    have d := delta L;
+    have W := upperWeight (bandwidth L) x;
+    have r := fun y => GoldbachArithmetic.trivialZeroTerm ((1 + d) * y) - GoldbachArithmetic.trivialZeroTerm y;
+    IntegrableOn (fun y => W y * r y ^ 2 / y ^ 2) (Icc A (x - A)) volume ∧
+      ∫ (y : ℝ) in Icc A (x - A), W y * r y ^ 2 / y ^ 2 < d / 10 ^ 6
+info: Goldbach/Explicit/Check.lean:235:0: explicit_spectral_variance_lt : RiemannHypothesis →
+  ∀ {L : ℝ},
+    42 ≤ L →
+      have x := Real.exp L;
+      have A := trimmedEndpoint L;
+      have d := delta L;
+      ∫ (y : ℝ) in Icc A (x - A), upperWeight (bandwidth L) x y * GoldbachExplicit.spectralNumerator✝ d y ^ 2 / y ^ 2 <
+        d * ((L - 2 * Real.log L) ^ 2 + 11 / 3 * L + 104)
+info: Goldbach/Explicit/Check.lean:236:0: explicit_variance_lt : RiemannHypothesis →
+  ∀ {L : ℝ}, 42 ≤ L → weightedVariance L < delta L * ((L - 2 * Real.log L) ^ 2 + 4 * L + 105)
+info: Goldbach/Explicit/Check.lean:237:0: goldbach_short_interval_explicit_large : RiemannHypothesis →
+  ∀ (x : ℝ),
+    Real.exp 42 ≤ x → ∃ p q, Nat.Prime p ∧ Nat.Prime q ∧ Odd p ∧ Odd q ∧ x < ↑p + ↑q ∧ ↑p + ↑q ≤ x + Real.log x ^ 2
+info: Goldbach/Explicit/Check.lean:239:0: 'GoldbachExplicit.coefficient_sq_eq_quotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:240:0: 'GoldbachExplicit.contDiff_coefficient_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:241:0: 'GoldbachExplicit.coefficient_sq_tail_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:242:0: 'GoldbachExplicit.coefficient_sq_tail_deriv_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:243:0: 'GoldbachExplicit.coefficient_sq_uniform_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:244:0: 'GoldbachExplicit.coefficient_sq_uniform_deriv_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:245:0: 'GoldbachExplicit.counting_derivative_integral_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:246:0: 'GoldbachExplicit.zeroCountMain_hasDerivAt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:247:0: 'GoldbachExplicit.log_mul_clippedZeroDensity_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:248:0: 'GoldbachExplicit.finite_logarithmic_zero_sum_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:249:0: 'GoldbachExplicit.alternative_upper_lt_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:250:0: 'GoldbachExplicit.archimedean_expression_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:251:0: 'GoldbachExplicit.integral_cosineWeight_first_moment' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:252:0: 'GoldbachExplicit.integral_cosineAbelWeight_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:253:0: 'GoldbachExplicit.weightedMangoldtSquares_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:254:0: 'GoldbachExplicit.twice_weightedMangoldtSquares_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:255:0: 'GoldbachExplicit.archimedeanZeroSum_log_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:256:0: 'GoldbachExplicit.archimedeanZeroSum_explicit_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:257:0: 'GoldbachExplicit.cosine_energy_explicit_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:258:0: 'GoldbachExplicit.sq_lt_sqrt_trimmedEndpoint' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:259:0: 'GoldbachExplicit.explicit_interval_endpoints' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:260:0: 'GoldbachExplicit.explicit_primePowerIncrement_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:261:0: 'GoldbachExplicit.primePowerIncrement_integral_div_sq_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:262:0: 'GoldbachExplicit.reciprocal_higherPrimePowerWeight_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:263:0: 'GoldbachExplicit.explicit_primePower_error_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:264:0: 'GoldbachExplicit.explicit_trivialZero_error_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:265:0: 'GoldbachExplicit.explicit_spectral_variance_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:266:0: 'GoldbachExplicit.explicit_variance_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:267:0: 'goldbach_short_interval_explicit_large' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (8874 jobs).
+Build exit 0
+
+# Exact finite premise, upper cutoff, odd summands and all-range bridge
+lake --packages=.lake/explicit-cache.json --no-cache build +Goldbach +Goldbach.Explicit.Check
+info: Goldbach/Explicit/Check.lean:281:0: def FiniteGoldbachExplicitRange : Prop :=
+∀ (n : ℕ), 6 ≤ n → ↑n < Real.exp 42 + 2 → Even n → ∃ p q, Nat.Prime p ∧ Nat.Prime q ∧ Odd p ∧ Odd q ∧ p + q = n
+info: Goldbach/Explicit/Check.lean:282:0: goldbach_short_interval_finite_of_finite : FiniteGoldbachExplicitRange →
+  ∀ {x : ℝ}, 5 ≤ x → x < Real.exp 42 → HasGoldbach x (Real.log x ^ 2)
+info: Goldbach/Explicit/Check.lean:283:0: finiteGoldbachExplicitRange_of_prime_representations : (∀ (n : ℕ),
+    6 ≤ n → n < 4000000000000000000 → Even n → ∃ p q, Nat.Prime p ∧ Nat.Prime q ∧ p + q = n) →
+  FiniteGoldbachExplicitRange
+info: Goldbach/Explicit/Check.lean:284:0: goldbach_short_interval_explicit_of_finite : RiemannHypothesis →
+  FiniteGoldbachExplicitRange →
+    ∀ (x : ℝ), 5 ≤ x → ∃ p q, Nat.Prime p ∧ Nat.Prime q ∧ Odd p ∧ Odd q ∧ x < ↑p + ↑q ∧ ↑p + ↑q ≤ x + Real.log x ^ 2
+info: Goldbach/Explicit/Check.lean:286:0: 'goldbach_short_interval_finite_of_finite' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:287:0: 'finiteGoldbachExplicitRange_of_prime_representations' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:288:0: 'goldbach_short_interval_explicit_of_finite' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (8875 jobs).
+Build exit 0, elapsed 00:01:39.3974385
+
+# Final project build and preserved asymptotic theorem types
+lake --packages=.lake/explicit-cache.json --no-cache build +Goldbach +Goldbach.Check +Goldbach.Explicit.Check
+Tracked source revisions checked clean
+Mathlib 51e6992efd06126df61a496bebf8f49482a4e129
+Zeta23 11b6c7e3c927df2658f513b6b68ea7f8929c62c5
+info: Goldbach/Check.lean:92:0: goldbach_short_interval_of_psi (hGaussianPsi : RiemannHypothesis → GoldbachConcrete.GaussianPsiSecondMoment) :
+  GoldbachConcrete.Target
+info: Goldbach/Check.lean:98:0: 'goldbach_short_interval_of_psi' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:135:0: GoldbachConcrete.gaussianPsiSecondMoment_of_RH : RiemannHypothesis → GoldbachConcrete.GaussianPsiSecondMoment
+info: Goldbach/Check.lean:136:0: goldbach_short_interval : RiemannHypothesis →
+  ∀ (c : ℝ),
+    1 < c →
+      ∃ X,
+        ∀ (x : ℝ),
+          X ≤ x → ∃ p q, Nat.Prime p ∧ Nat.Prime q ∧ Odd p ∧ Odd q ∧ x < ↑p + ↑q ∧ ↑p + ↑q ≤ x + c * Real.log x ^ 2
+info: Goldbach/Check.lean:156:0: 'goldbach_short_interval' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (8876 jobs).
+Build exit 0, elapsed 00:01:22.1523236
+
+# v9 final pinned build, regressions, primality and coverage
+leanprover/lean4:v4.33.0-rc2
+Lean 4.33.0-rc2 d8b18978322de05a8f3dba51ef03cf5461676c17
+Mathlib 51e6992efd06126df61a496bebf8f49482a4e129
+Zeta23 11b6c7e3c927df2658f513b6b68ea7f8929c62c5
+lake --packages=.lake/explicit-cache.json --no-cache build +Goldbach +Goldbach.Check +Goldbach.Explicit.Check
+> info: Goldbach/Explicit/Check.lean:238:0: goldbach_short_interval_explicit_large : RiemannHypothesis →
+    ∀ (x : ℝ),
+      Real.exp 42 ≤ x → ∃ p q, Nat.Prime p ∧ Nat.Prime q ∧ Odd p ∧ Odd q ∧ x < ↑p + ↑q ∧ ↑p + ↑q ≤ x + Real.log x ^ 2
+  info: Goldbach/Explicit/Check.lean:240:0: 'GoldbachExplicit.coefficient_sq_eq_quotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:268:0: 'goldbach_short_interval_explicit_large' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:303:0: goldbach_short_interval_of_psi : (RiemannHypothesis → GaussianPsiSecondMoment) → Target
+info: Goldbach/Explicit/Check.lean:304:0: @goldbach_log_sq_coefficient_lower_bound : ∀ {C : ℝ},
+  (∀ (x : ℝ), 4 ≤ x → HasGoldbach x (C * Real.log x ^ 2)) → 2 / Real.log 4 ^ 2 ≤ C
+info: Goldbach/Explicit/Check.lean:305:0: goldbach_short_interval_max_of_explicit : (∀ (x : ℝ), 5 ≤ x → HasGoldbach x (Real.log x ^ 2)) →
+  ∀ (x : ℝ), 4 ≤ x → HasGoldbach x (max 2 (Real.log x ^ 2))
+info: Goldbach/Explicit/Check.lean:306:0: goldbach_log_sq_optimal_of_explicit : (∀ (x : ℝ), 5 ≤ x → HasGoldbach x (Real.log x ^ 2)) →
+  IsLeast {C | ∀ (x : ℝ), 4 ≤ x → HasGoldbach x (C * Real.log x ^ 2)} (2 / Real.log 4 ^ 2)
+info: Goldbach/Explicit/Check.lean:307:0: goldbach_short_interval_max_of_finite : RiemannHypothesis →
+  FiniteGoldbachExplicitRange → ∀ (x : ℝ), 4 ≤ x → HasGoldbach x (max 2 (Real.log x ^ 2))
+info: Goldbach/Explicit/Check.lean:308:0: goldbach_log_sq_optimal_of_finite : RiemannHypothesis →
+  FiniteGoldbachExplicitRange → IsLeast {C | ∀ (x : ℝ), 4 ≤ x → HasGoldbach x (C * Real.log x ^ 2)} (2 / Real.log 4 ^ 2)
+info: Goldbach/Explicit/Check.lean:310:0: 'goldbach_short_interval_of_psi' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:311:0: 'goldbach_log_sq_coefficient_lower_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:312:0: 'goldbach_short_interval_max_of_explicit' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:313:0: 'goldbach_log_sq_optimal_of_explicit' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:314:0: 'goldbach_short_interval_max_of_finite' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:315:0: 'goldbach_log_sq_optimal_of_finite' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:349:0: @prime_of_lucas_factorization : ∀ {n base : ℕ} {factors : List (ℕ × ℕ)},
+  (List.map (fun r => r.1 ^ r.2) factors).prod = n - 1 →
+    ↑base ^ (n - 1) = 1 → LucasFactorTests n base factors → Nat.Prime n
+info: Goldbach/Explicit/Check.lean:350:0: @interval_cover_of_check : ∀ {width left right : ℕ} {rows : List PairCertificate},
+  checkIntervalCover width right left rows = true → ∀ (x : ℝ), ↑left ≤ x → x < ↑right → HasGoldbach x ↑width
+info: Goldbach/Explicit/Check.lean:351:0: @prime_interval_cover_of_check : ∀ {width left right : ℕ} {rows : List CertifiedOddPrime},
+  checkPrimeIntervalCover width right left rows = true → ∀ (x : ℝ), ↑left ≤ x → x < ↑right → HasOddPrime x ↑width
+info: Goldbach/Explicit/Check.lean:352:0: @goldbach_interval_of_two_prime_covers : ∀ {a b c d width : ℝ},
+  (∀ (y : ℝ), a ≤ y → y < b → HasOddPrime y width) →
+    (∀ (z : ℝ), c ≤ z → z < d → HasOddPrime z (b - a)) → ∀ (x : ℝ), b + c ≤ x → x < b + d → HasGoldbach x width
+info: Goldbach/Explicit/Check.lean:353:0: goldbach_short_interval_certified_prefix : ∀ (x : ℝ), 5 ≤ x → x < 10000000 → HasGoldbach x (Real.log x ^ 2)
+info: Goldbach/Explicit/Check.lean:354:0: goldbach_short_interval_high_sample : ∀ (x : ℝ),
+  1000000000000000000 ≤ x → x < 1000000000000400000 → HasGoldbach x (Real.log x ^ 2)
+info: Goldbach/Explicit/Check.lean:355:0: goldbach_short_interval_high_two_ladders : ∀ (x : ℝ),
+  1000000000000000000 ≤ x → x < 1000000000102800000 → HasGoldbach x (Real.log x ^ 2)
+info: Goldbach/Explicit/Check.lean:356:0: goldbach_short_interval_explicit_of_interval_coverage : RiemannHypothesis →
+  FiniteGoldbachIntervalCoverage →
+    ∀ (x : ℝ), 5 ≤ x → ∃ p q, Nat.Prime p ∧ Nat.Prime q ∧ Odd p ∧ Odd q ∧ x < ↑p + ↑q ∧ ↑p + ↑q ≤ x + Real.log x ^ 2
+info: Goldbach/Explicit/Check.lean:357:0: def RemainingGoldbachIntervalCoverage : Prop :=
+(∀ (x : ℝ), 10000000 ≤ x → x < 1000000000000000000 → HasGoldbach x (Real.log x ^ 2)) ∧
+  ∀ (x : ℝ), 1000000000102800000 ≤ x → x < Real.exp 42 → HasGoldbach x (Real.log x ^ 2)
+info: Goldbach/Explicit/Check.lean:358:0: finiteGoldbachIntervalCoverage_of_remaining : RemainingGoldbachIntervalCoverage → FiniteGoldbachIntervalCoverage
+info: Goldbach/Explicit/Check.lean:359:0: goldbach_short_interval_explicit_of_remaining_intervals : RiemannHypothesis →
+  RemainingGoldbachIntervalCoverage →
+    ∀ (x : ℝ), 5 ≤ x → ∃ p q, Nat.Prime p ∧ Nat.Prime q ∧ Odd p ∧ Odd q ∧ x < ↑p + ↑q ∧ ↑p + ↑q ≤ x + Real.log x ^ 2
+info: Goldbach/Explicit/Check.lean:360:0: goldbach_short_interval_max_of_remaining_intervals : RiemannHypothesis →
+  RemainingGoldbachIntervalCoverage → ∀ (x : ℝ), 4 ≤ x → HasGoldbach x (max 2 (Real.log x ^ 2))
+info: Goldbach/Explicit/Check.lean:361:0: goldbach_log_sq_optimal_of_remaining_intervals : RiemannHypothesis →
+  RemainingGoldbachIntervalCoverage →
+    IsLeast {C | ∀ (x : ℝ), 4 ≤ x → HasGoldbach x (C * Real.log x ^ 2)} (2 / Real.log 4 ^ 2)
+info: Goldbach/Explicit/Check.lean:363:0: 'GoldbachExplicit.prime_of_lucas_factorization' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:364:0: 'GoldbachExplicit.interval_cover_of_check' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:365:0: 'GoldbachExplicit.prime_interval_cover_of_check' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:366:0: 'GoldbachExplicit.goldbach_interval_of_two_prime_covers' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:367:0: 'goldbach_short_interval_certified_prefix' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:368:0: 'goldbach_short_interval_high_sample' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:369:0: 'goldbach_short_interval_high_two_ladders' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:370:0: 'goldbach_short_interval_explicit_of_interval_coverage' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:371:0: 'finiteGoldbachIntervalCoverage_of_remaining' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:372:0: 'goldbach_short_interval_explicit_of_remaining_intervals' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:373:0: 'goldbach_short_interval_max_of_remaining_intervals' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:374:0: 'goldbach_log_sq_optimal_of_remaining_intervals' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (8886 jobs).
+Build exit 0, elapsed 00:02:31.9522560
+
+# Final published-bound bridge regression and full rebuild
+The independent example applies finiteGoldbachExplicitRange_of_prime_representations to the stated bounded input and checks both corollaries.
+lake --packages=.lake/explicit-cache.json --no-cache build +Goldbach +Goldbach.Check +Goldbach.Explicit.Check
+info: Goldbach/Explicit/Check.lean:374:0: 'goldbach_log_sq_optimal_of_remaining_intervals' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (8886 jobs).
+Build exit 0, elapsed 00:00:44.1474346
+
+# Vynohradov v0.5 and v0.6.1 finite-input compatibility
+v0.5 df4b19e572e82f1a2007eae23a28e71bbba6be39
+v0.6.1 3c49c0fd83ccbc3429d2a9068c4f2d1a56f2ebf1
+Local toolchain leanprover/lean4:v4.33.0-rc2
+Command: lake --packages=.lake/explicit-cache.json env lean .lake/vynohradov-interface-check.lean
+The two GoldbachRH definitions below were extracted from the identical source bodies at both pinned tags.
+
+import Goldbach.Explicit.FiniteRange
+
+namespace GoldbachRH
+def IsGoldbachNumber (n : ℕ) : Prop :=
+  Even n ∧ ∃ p q : ℕ, p.Prime ∧ q.Prime ∧ p + q = n
+def GoldbachVerifiedUpTo (N : ℕ) : Prop :=
+  ∀ n : ℕ, Even n → 4 < n → n ≤ N → IsGoldbachNumber n
+end GoldbachRH
+
+
+/-- The finite-computation input in v0.5 is precisely inclusive bounded even Goldbach. -/
+theorem vynohradov_finite_input_iff :
+    GoldbachRH.GoldbachVerifiedUpTo (4 * 10^18) ↔
+      ∀ n : ℕ, 6 ≤ n → n ≤ 4 * 10^18 → Even n →
+        ∃ p q : ℕ, Nat.Prime p ∧ Nat.Prime q ∧ p + q = n := by
+  constructor
+  · intro h n hn hb he
+    exact (h n he (by omega) hb).2
+  · intro h n he hn hb
+    have hn6 : 6 ≤ n := by
+      obtain ⟨k, hk⟩ := he
+      omega
+    exact ⟨he, h n hn6 hb he⟩
+
+/-- The upstream certificate input supplies the current project's finite premise. -/
+theorem current_finite_input_of_vynohradov
+    (h : GoldbachRH.GoldbachVerifiedUpTo (4 * 10^18)) :
+    FiniteGoldbachExplicitRange := by
+  apply finiteGoldbachExplicitRange_of_prime_representations
+  intro n hn hb he
+  have hbound : n ≤ (4000000000000000000 : ℕ) := hb.le
+  have hb' : n ≤ 4 * 10^18 := by
+    norm_num
+    exact hbound
+  exact (vynohradov_finite_input_iff.mp h) n hn hb' he
+
+example (hRH : RiemannHypothesis)
+    (h : GoldbachRH.GoldbachVerifiedUpTo (4 * 10^18)) :
+    ∀ x : ℝ, 5 ≤ x →
+      ∃ p q : ℕ, Nat.Prime p ∧ Nat.Prime q ∧ Odd p ∧ Odd q ∧
+        x < (p : ℝ) + (q : ℝ) ∧
+        (p : ℝ) + (q : ℝ) ≤ x + (Real.log x)^2 :=
+  goldbach_short_interval_explicit_of_finite hRH (current_finite_input_of_vynohradov h)
+
+theorem current_analytic_cutoff_lt_vynohradov : Real.exp 42 < (3900000000000000000 : ℝ) := by
+  have he : Real.exp 1 ≤ (272 / 100 : ℝ) := by linarith [Real.exp_one_lt_d9]
+  calc
+    Real.exp 42 = (Real.exp 1)^42 := by rw [← Real.exp_nat_mul]; norm_num
+    _ ≤ (272 / 100 : ℝ)^42 := pow_le_pow_left₀ (Real.exp_pos 1).le he 42
+    _ < 3900000000000000000 := by norm_num
+
+#print GoldbachRH.GoldbachVerifiedUpTo
+#check @vynohradov_finite_input_iff
+#check @current_finite_input_of_vynohradov
+#check @current_analytic_cutoff_lt_vynohradov
+#print axioms vynohradov_finite_input_iff
+#print axioms current_finite_input_of_vynohradov
+#print axioms current_analytic_cutoff_lt_vynohradov
+
+def GoldbachRH.GoldbachVerifiedUpTo : ℕ → Prop :=
+fun N => ∀ (n : ℕ), Even n → 4 < n → n ≤ N → GoldbachRH.IsGoldbachNumber n
+vynohradov_finite_input_iff : GoldbachRH.GoldbachVerifiedUpTo (4 * 10 ^ 18) ↔
+  ∀ (n : ℕ), 6 ≤ n → n ≤ 4 * 10 ^ 18 → Even n → ∃ p q, Nat.Prime p ∧ Nat.Prime q ∧ p + q = n
+current_finite_input_of_vynohradov : GoldbachRH.GoldbachVerifiedUpTo (4 * 10 ^ 18) → FiniteGoldbachExplicitRange
+current_analytic_cutoff_lt_vynohradov : Real.exp 42 < 3900000000000000000
+'vynohradov_finite_input_iff' depends on axioms: [propext, Quot.sound]
+'current_finite_input_of_vynohradov' depends on axioms: [propext, Classical.choice, Quot.sound]
+'current_analytic_cutoff_lt_vynohradov' depends on axioms: [propext, Classical.choice, Quot.sound]
+Lean exit 0, elapsed 00:00:57.8278266
+
+# Coefficient-two exact types, certified coverage and finite bridges
+Toolchain: leanprover/lean4:v4.33.0-rc2
+lake --packages=.lake/explicit-cache.json --no-cache build +Goldbach +Goldbach.Check +Goldbach.Explicit.Check
+info: Goldbach/Explicit/Check.lean:420:0: def RemainingGoldbachTwoIntervalCoverage : Prop :=
+(∀ (x : ℝ), 10000000 ≤ x → x < 1000000000000000000 → HasGoldbach x (2 * Real.log x ^ 2)) ∧
+  ∀ (x : ℝ), 1000000000102800000 ≤ x → x < Real.exp 42 → HasGoldbach x (2 * Real.log x ^ 2)
+info: Goldbach/Explicit/Check.lean:421:0: goldbach_short_interval_two_certified_prefix : ∀ (x : ℝ), 4 ≤ x → x < 10000000 → HasGoldbach x (2 * Real.log x ^ 2)
+info: Goldbach/Explicit/Check.lean:422:0: goldbach_short_interval_two_certified_high : ∀ (x : ℝ),
+  1000000000000000000 ≤ x → x < 1000000000102800000 → HasGoldbach x (2 * Real.log x ^ 2)
+info: Goldbach/Explicit/Check.lean:423:0: goldbach_short_interval_two_large : RiemannHypothesis → ∀ (x : ℝ), Real.exp 42 ≤ x → HasGoldbach x (2 * Real.log x ^ 2)
+info: Goldbach/Explicit/Check.lean:424:0: goldbach_short_interval_two_of_remaining_intervals : RiemannHypothesis →
+  RemainingGoldbachTwoIntervalCoverage → ∀ (x : ℝ), 4 ≤ x → HasGoldbach x (2 * Real.log x ^ 2)
+info: Goldbach/Explicit/Check.lean:425:0: goldbach_short_interval_two_of_finite : RiemannHypothesis →
+  FiniteGoldbachExplicitRange → ∀ (x : ℝ), 4 ≤ x → HasGoldbach x (2 * Real.log x ^ 2)
+info: Goldbach/Explicit/Check.lean:427:0: 'goldbach_short_interval_two_certified_prefix' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:428:0: 'goldbach_short_interval_two_certified_high' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:429:0: 'goldbach_short_interval_two_large' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:430:0: 'goldbach_short_interval_two_of_remaining_intervals' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:431:0: 'goldbach_short_interval_two_of_finite' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (8887 jobs).
+Build exit 0, elapsed 00:01:42.4089505
+
+# Full-range coefficient-one theorem, max width and optimal coefficient
+2026-11-27T12:00:18.8152897+09:00
+Lean 4.33.0-rc2 d8b18978322de05a8f3dba51ef03cf5461676c17
+Actual build used the pinned local package-path override.
+lake --packages=.lake/explicit-cache.json --no-cache build +Goldbach +Goldbach.Check +Goldbach.Explicit.Check
+⚠ [8697/8796] Replayed Zeta23.FromPNTPlus.MellinCalculus
+warning: Zeta23/FromPNTPlus/MellinCalculus.lean:839:40: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/FromPNTPlus/MellinCalculus.lean:839:40: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+⚠ [8705/8796] Replayed Zeta23.FromPNTPlus.ZetaBounds
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:859:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:952:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1092:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1099:32: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1105:56: `Set.preimage_setOf_eq` has been deprecated: Use `Set.preimage_ofPred_eq` instead
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1115:56: `Set.preimage_setOf_eq` has been deprecated: Use `Set.preimage_ofPred_eq` instead
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1119:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1135:54: `Set.preimage_setOf_eq` has been deprecated: Use `Set.preimage_ofPred_eq` instead
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1157:22: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1169:15: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1169:59: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1185:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1835:19: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1837:45: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1840:28: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1844:28: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1900:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:1906:20: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:2091:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:2884:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/FromPNTPlus/ZetaBounds.lean:2940:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+⚠ [8709/8796] Replayed Zeta23.FromPNTPlus.MediumPNT
+warning: Zeta23/FromPNTPlus/MediumPNT.lean:156:34: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/FromPNTPlus/MediumPNT.lean:1348:14: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead
+warning: Zeta23/FromPNTPlus/MediumPNT.lean:1354:32: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead
+warning: Zeta23/FromPNTPlus/MediumPNT.lean:1355:12: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/FromPNTPlus/MediumPNT.lean:3090:6: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+info: Zeta23/FromPNTPlus/MediumPNT.lean:3731:0: 'MediumPNT' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [8715/8796] Replayed Zeta23.GammaFacts.Mu
+info: Zeta23/GammaFacts/Mu.lean:137:2: Try this:
+  [apply] ring_nf
+
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+ℹ [8717/8796] Replayed Zeta23.GammaFacts.StirlingVert
+info: Zeta23/GammaFacts/StirlingVert.lean:452:6: Try this:
+  [apply] ring_nf
+
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+⚠ [8720/8796] Replayed Zeta23.Statement
+warning: Zeta23/Statement.lean:148:30: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+⚠ [8721/8796] Replayed Zeta23.Statement.Seam
+warning: Zeta23/Statement/Seam.lean:59:13: `ENat.toNat_coe` has been deprecated: Use `ENat.toNat_natCast` instead
+⚠ [8722/8796] Replayed Zeta23.ZetaReflect
+warning: Zeta23/ZetaReflect.lean:91:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+⚠ [8726/8796] Replayed Zeta23.FromPNTPlus.StrongPNTPrefix
+warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:61:71: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:202:9: `Set.setOf_subset_setOf` has been deprecated: Use `Set.ofPred_subset_ofPred` instead
+warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:343:10: `Set.notMem_setOf_iff` has been deprecated: Use `Set.notMem_ofPred_iff` instead
+warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:368:48: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:390:10: `Set.notMem_setOf_iff` has been deprecated: Use `Set.notMem_ofPred_iff` instead
+warning: Zeta23/FromPNTPlus/StrongPNTPrefix.lean:432:48: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+⚠ [8728/8796] Replayed Zeta23.RvM.Halving
+warning: Zeta23/RvM/Halving.lean:52:55: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/RvM/Halving.lean:62:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/RvM/Halving.lean:70:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+⚠ [8734/8796] Replayed Zeta23.RvM.ReZeroCount
+warning: Zeta23/RvM/ReZeroCount.lean:272:15: `ENat.toNat_coe` has been deprecated: Use `ENat.toNat_natCast` instead
+⚠ [8738/8796] Replayed Zeta23.RvM.NcountWindow
+warning: Zeta23/RvM/NcountWindow.lean:23:22: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+⚠ [8754/8796] Replayed Zeta23.Tail
+warning: Zeta23/Tail.lean:290:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/Tail.lean:399:17: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+⚠ [8757/8796] Replayed Zeta23.WeilEF.ZeroSummability
+warning: Zeta23/WeilEF/ZeroSummability.lean:189:4: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+⚠ [8761/8796] Replayed Zeta23.WeilEF.Landau
+warning: Zeta23/WeilEF/Landau.lean:341:13: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/WeilEF/Landau.lean:437:64: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+ℹ [8763/8886] Replayed Goldbach.Concrete
+info: Goldbach/Concrete.lean:141:0: 'GoldbachConcrete.density_witness' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Concrete.lean:142:0: 'GoldbachConcrete.no_pair' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Concrete.lean:143:0: 'GoldbachConcrete.pair_deficit' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Concrete.lean:144:0: 'GoldbachConcrete.pointwise_conclusion' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Concrete.lean:145:0: 'GoldbachConcrete.conditional_target' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Concrete.lean:146:0: GoldbachConcrete.Target : Prop
+ℹ [8768/8886] Replayed Goldbach.Schur
+info: Goldbach/Schur.lean:64:0: 'GoldbachSchur.pair_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Schur.lean:65:0: 'GoldbachSchur.finite_schur' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [8776/8886] Replayed Zeta23.WeilEF.Contour
+warning: Zeta23/WeilEF/Contour.lean:69:15: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+ℹ [8781/8886] Replayed Zeta23.WeilEF.Main
+info: Zeta23/WeilEF/Main.lean:38:2: Try this:
+  [apply] ring_nf
+
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+⚠ [8791/8886] Replayed Goldbach.GammaKernel
+warning: Goldbach/GammaKernel.lean:44:2: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Goldbach/GammaKernel.lean:94:13: This simp argument is unused:
+  Function.comp_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [expWeight, abs_mul, abs_of_pos hc, c]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+info: Goldbach/GammaKernel.lean:110:17: Try this:
+  [apply] ring_nf
+
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+⚠ [8799/8886] Replayed Goldbach.RowAsymptotic
+warning: Goldbach/RowAsymptotic.lean:89:56: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+ℹ [8807/8886] Replayed Goldbach.Check
+info: Goldbach/Check.lean:31:0: def RiemannHypothesis : Prop :=
+∀ (s : ℂ), riemannZeta s = 0 → (¬∃ n, s = -2 * (↑n + 1)) → s ≠ 1 → s.re = 1 / 2
+info: Goldbach/Check.lean:32:0: def GoldbachConcrete.Target : Prop :=
+RiemannHypothesis →
+  ∀ (c : ℝ), 1 < c → ∃ X, ∀ (x : ℝ), X ≤ x → GoldbachConcrete.HasGoldbach x (GoldbachConcrete.window c x)
+info: Goldbach/Check.lean:33:0: def GoldbachConcrete.GaussianSecondMoment : Prop :=
+∀ (a : ℝ),
+  0 < a →
+    a < 1 / 2 →
+      ∀ (b : ℝ),
+        0 < b →
+          ∀ (c : ℝ),
+            1 < c →
+              ∀ (ε : ℝ),
+                0 < ε →
+                  ∀ᶠ (x : ℝ) in atTop,
+                    GoldbachConcrete.relativeWidth c x ^ 2 *
+                        ∫ (y : ℝ) in Set.Icc (a * x) ((1 - a) * x),
+                          GoldbachGaussian.weight b (Real.log (y / x)) *
+                            (GoldbachConcrete.density (GoldbachConcrete.relativeWidth c x) y - 1) ^ 2 ≤
+                      (1 + ε) * GoldbachConcrete.relativeWidth c x * Real.log x ^ 2
+info: Goldbach/Check.lean:34:0: def Zeta23.IsNontrivialZero : ℂ → Prop :=
+fun ρ => riemannZeta ρ = 0 ∧ 0 < ρ.re ∧ ρ.re < 1
+info: Goldbach/Check.lean:35:0: def Zeta23.zeroMult : ℂ → ℕ :=
+fun ρ => (analyticOrderAt riemannZeta ρ).toNat
+info: Goldbach/Check.lean:36:0: structure Zeta23.RiemannVonMangoldt (Z : Zeta23.ZeroConfig) : Prop
+number of parameters: 1
+fields:
+  Zeta23.RiemannVonMangoldt.main : ∃ C T₀,
+      ∀ (T : ℝ), T₀ ≤ T → |↑(Z.N T (2 * T)) - T / (2 * Real.pi) * Zeta23.ell1 T| ≤ C * Real.log T
+  Zeta23.RiemannVonMangoldt.local_count : ∃ A₀, 1 ≤ A₀ ∧ ∀ (t : ℝ), ↑(Z.N t (t + 1)) ≤ A₀ * Real.log (|t| + 3)
+constructor:
+  Zeta23.RiemannVonMangoldt.mk {Z : Zeta23.ZeroConfig}
+    (main : ∃ C T₀, ∀ (T : ℝ), T₀ ≤ T → |↑(Z.N T (2 * T)) - T / (2 * Real.pi) * Zeta23.ell1 T| ≤ C * Real.log T)
+    (local_count : ∃ A₀, 1 ≤ A₀ ∧ ∀ (t : ℝ), ↑(Z.N t (t + 1)) ≤ A₀ * Real.log (|t| + 3)) : Zeta23.RiemannVonMangoldt Z
+info: Goldbach/Check.lean:37:0: def Zeta23.EF.EF_lit : Zeta23.ZeroConfig → Prop :=
+fun Z =>
+  ∀ (k : ℝ → ℂ),
+    ContDiff ℝ 2 k →
+      HasCompactSupport k →
+        (Summable fun ρ => ↑(Z.mult ↑ρ) * Zeta23.paperFT k (Zeta23.gammaOf ↑ρ)) ∧
+          ∑' (ρ : ↑Z.carrier), ↑(Z.mult ↑ρ) * Zeta23.paperFT k (Zeta23.gammaOf ↑ρ) = Zeta23.EF.literatureRHS k
+info: Goldbach/Check.lean:38:0: MediumPNT : ∃ c > 0, (Chebyshev.psi - id) =O[atTop] fun x => x * Real.exp (-c * Real.log x ^ (1 / 10))
+info: Goldbach/Check.lean:39:0: Zeta23.gammaFacts : Zeta23.GammaFacts
+info: Goldbach/Check.lean:40:0: Zeta23.RvM.riemannVonMangoldt (hΓ : Zeta23.GammaFacts) : Zeta23.RiemannVonMangoldt Zeta23.zetaZeroConfig
+info: Goldbach/Check.lean:41:0: Zeta23.WeilEF.EF_lit_zetaZeroConfig : Zeta23.EF.EF_lit Zeta23.zetaZeroConfig
+info: Goldbach/Check.lean:42:0: GoldbachConcrete.density_eq_theta_sub {d y : ℝ} (hd : 0 < d) (hy : 2 ≤ y) :
+  GoldbachConcrete.density d y = (Chebyshev.theta ((1 + d) * y) - Chebyshev.theta y) / (d * y)
+info: Goldbach/Check.lean:43:0: GoldbachConcrete.firstMomentInput : GoldbachConcrete.FirstMomentInput
+info: Goldbach/Check.lean:44:0: GoldbachConcrete.secondMomentInput_of_gaussian (hG : GoldbachConcrete.GaussianSecondMoment) :
+  GoldbachConcrete.SecondMomentInput
+info: Goldbach/Check.lean:45:0: GoldbachZeros.weil_explicit_on_line (hRH : RiemannHypothesis) (k : ℝ → ℂ) (hk : ContDiff ℝ 2 k)
+  (hkc : HasCompactSupport k) :
+  (Summable fun ρ => ↑(GoldbachZeros.multiplicity ρ) * Zeta23.paperFT k ↑(GoldbachZeros.ordinate ρ)) ∧
+    ∑' (ρ : ↑GoldbachZeros.Zeros), ↑(GoldbachZeros.multiplicity ρ) * Zeta23.paperFT k ↑(GoldbachZeros.ordinate ρ) =
+      Zeta23.EF.literatureRHS k
+info: Goldbach/Check.lean:46:0: GoldbachZeros.row_summable_and_bound {b : ℝ} (hb : 0 < b) :
+  ∃ C,
+    0 ≤ C ∧
+      ∀ (t : ℝ),
+        (Summable fun ρ => GoldbachZeros.multiplicity ρ * GoldbachGaussian.kernel b (t - GoldbachZeros.ordinate ρ)) ∧
+          GoldbachZeros.row b t ≤ C * Real.log (|t| + 3)
+info: Goldbach/Check.lean:47:0: GoldbachZeros.cumulative_count_tendsto :
+  Tendsto (fun t => ↑(Zeta23.Ncount 0 t) / (t * Real.log t)) atTop (𝓝 (1 / (2 * Real.pi)))
+info: Goldbach/Check.lean:48:0: GoldbachZeros.scaled_positive_window_tendsto {a b : ℝ} (ha : 0 < a) (hab : a ≤ b) :
+  Tendsto (fun T => ↑(Zeta23.Ncount (a * T) (b * T)) / (T * Real.log T)) atTop (𝓝 ((b - a) / (2 * Real.pi)))
+info: Goldbach/Check.lean:49:0: GoldbachZeros.row_even (b t : ℝ) : GoldbachZeros.row b (-t) = GoldbachZeros.row b t
+info: Goldbach/Check.lean:50:0: GoldbachSpectrum.profile_sub_le {lam : ℝ} (hlam₀ : 0 ≤ lam) (hlam₁ : lam ≤ 1) (u : ℝ) :
+  |GoldbachSpectrum.profile lam u - GoldbachSpectrum.profile 0 u| ≤ (Real.exp (1 / 2) + 1) * (Real.exp (lam / 2) - 1)
+info: Goldbach/Check.lean:51:0: GoldbachSpectrum.integral_profile_zero : ∫ (t : ℝ), GoldbachSpectrum.profile 0 t = 2 * Real.pi
+info: Goldbach/Check.lean:52:0: GoldbachSpectrum.diagonalEnergy_summable {b lam : ℝ} (hb : 0 < b) (hlam₀ : 0 ≤ lam) (hlam₁ : lam ≤ 1) :
+  Summable (GoldbachSpectrum.diagonalEnergy b fun ρ => GoldbachSpectrum.coefficient lam (GoldbachZeros.ordinate ρ))
+info: Goldbach/Check.lean:53:0: GoldbachSpectrum.local_mean_square_of_ae_limit {b : ℝ} (hb : 0 < b) (z : ℝ) (J : Set ℝ) (a : ↑GoldbachZeros.Zeros → ℂ)
+  (F : ℝ → ℂ) (hE : Summable (GoldbachSpectrum.diagonalEnergy b a))
+  (hF : IntegrableOn (fun u => GoldbachGaussian.weight b (u - z) * ‖F u‖ ^ 2) J volume)
+  (hlim : ∀ᵐ (u : ℝ) ∂volume.restrict J, Tendsto (fun n => GoldbachSpectrum.partialSum a (↑n) u) atTop (𝓝 (F u))) :
+  ∫ (u : ℝ) in J, GoldbachGaussian.weight b (u - z) * ‖F u‖ ^ 2 ≤
+    ∑' (ρ : ↑GoldbachZeros.Zeros), GoldbachSpectrum.diagonalEnergy b a ρ
+info: Goldbach/Check.lean:54:0: goldbach_short_interval_of_gaussian (hGaussian : RiemannHypothesis → GoldbachConcrete.GaussianSecondMoment)
+  (hRH : RiemannHypothesis) (c : ℝ) :
+  1 < c →
+    ∃ X,
+      ∀ (x : ℝ),
+        X ≤ x → ∃ p q, Nat.Prime p ∧ Nat.Prime q ∧ Odd p ∧ Odd q ∧ x < ↑p + ↑q ∧ ↑p + ↑q ≤ x + c * Real.log x ^ 2
+info: Goldbach/Check.lean:55:0: 'RiemannHypothesis' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:56:0: 'MediumPNT' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:57:0: 'Zeta23.zetaSeam' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:58:0: 'Zeta23.gammaFacts' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:59:0: 'Zeta23.RvM.riemannVonMangoldt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:60:0: 'Zeta23.WeilEF.EF_lit_zetaZeroConfig' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:61:0: 'Zeta23.WeilEF.zero_sum_inv_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:62:0: 'GoldbachConcrete.theta_div_tendsto_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:63:0: 'GoldbachConcrete.density_eq_theta_sub' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:64:0: 'GoldbachConcrete.firstMomentInput' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:65:0: 'GoldbachConcrete.secondMomentInput_of_gaussian' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:66:0: 'GoldbachSchur.finite_schur_weighted' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:67:0: 'GoldbachGaussian.integral_kernel' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:68:0: 'GoldbachGaussian.integral_norm_sq_le_schur' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:69:0: 'GoldbachZeros.riemannVonMangoldt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:70:0: 'GoldbachZeros.weil_explicit_on_line' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:71:0: 'GoldbachZeros.row_summable_and_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:72:0: 'GoldbachZeros.cumulative_count_tendsto' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:73:0: 'GoldbachZeros.scaled_positive_window_tendsto' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:74:0: 'GoldbachSpectrum.integral_profile_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:75:0: 'GoldbachArithmetic.trivialZeroTerm_sub_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:76:0: 'GoldbachArithmetic.sqrt_le_pow_gap' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:77:0: 'GoldbachZeros.row_even' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:78:0: 'GoldbachSpectrum.profile_sub_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:79:0: 'GoldbachSpectrum.coefficient_sq_scale' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:80:0: 'GoldbachSpectrum.diagonalEnergy_summable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:81:0: 'GoldbachSpectrum.local_mean_square_of_ae_limit' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:82:0: 'GoldbachLogIntegral.integral_normalized_error' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:83:0: 'GoldbachLogIntegral.ae_avoids_natural_endpoints' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:84:0: 'goldbach_short_interval_of_gaussian' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:86:0: def GoldbachConcrete.GaussianPsiSecondMoment : Prop :=
+∀ (a : ℝ),
+  0 < a →
+    a < 1 / 2 →
+      ∀ (b : ℝ),
+        0 < b →
+          ∀ (c : ℝ),
+            1 < c →
+              ∀ (ε : ℝ),
+                0 < ε →
+                  ∀ᶠ (x : ℝ) in atTop,
+                    ∫ (y : ℝ) in Set.Icc (a * x) ((1 - a) * x),
+                        GoldbachGaussian.weight b (Real.log (y / x)) *
+                          GoldbachConcrete.psiError (GoldbachConcrete.relativeWidth c x) y ^ 2 ≤
+                      (1 + ε) * GoldbachConcrete.relativeWidth c x * Real.log x ^ 2
+info: Goldbach/Check.lean:87:0: GoldbachArithmetic.primePowerError_bound {a d v x : ℝ} (ha : 0 < a) (hd : 0 ≤ d) (hd' : d ≤ 1) (hx : 2 ≤ x)
+  (hv : v ≤ x) :
+  IntegrableOn (fun y => GoldbachArithmetic.primePowerIncrement d y ^ 2 / y ^ 2) (Set.Icc (a * x) v) volume ∧
+    ∫ (y : ℝ) in Set.Icc (a * x) v, GoldbachArithmetic.primePowerIncrement d y ^ 2 / y ^ 2 ≤
+      32 / a ^ 2 * (d * Real.log x ^ 2) * ((d * x + 1) / √x)
+info: Goldbach/Check.lean:88:0: GoldbachArithmetic.primePowerError_isLittleO {a c : ℝ} (ha : 0 < a) (hc : 0 < c) :
+  (fun x =>
+      ∫ (y : ℝ) in Set.Icc (a * x) ((1 - a) * x),
+        GoldbachArithmetic.primePowerIncrement (GoldbachConcrete.relativeWidth c x) y ^ 2 / y ^ 2) =o[atTop]
+    fun x => GoldbachConcrete.relativeWidth c x * Real.log x ^ 2
+info: Goldbach/Check.lean:89:0: GoldbachConcrete.logWidth_scale_tendsto_one {c : ℝ} (hc : 0 < c) :
+  Tendsto
+    (fun x =>
+      GoldbachConcrete.logWidth c x * Real.log (1 / GoldbachConcrete.logWidth c x) ^ 2 /
+        (GoldbachConcrete.relativeWidth c x * Real.log x ^ 2))
+    atTop (𝓝 1)
+info: Goldbach/Check.lean:90:0: GoldbachSpectrum.eventually_partialSum_sub_mean_square_le {b : ℝ} (hb : 0 < b) (z : ℝ) (a : ↑GoldbachZeros.Zeros → ℂ)
+  (hE : Summable (GoldbachSpectrum.diagonalEnergy b a)) {ε : ℝ} (hε : 0 < ε) :
+  ∀ᶠ (T : ℝ) in atTop,
+    ∀ (U : ℝ),
+      T ≤ U →
+        ∫ (u : ℝ),
+            GoldbachGaussian.weight b (u - z) *
+              ‖GoldbachSpectrum.partialSum a U u - GoldbachSpectrum.partialSum a T u‖ ^ 2 ≤
+          ε
+info: Goldbach/Check.lean:91:0: GoldbachConcrete.gaussianSecondMoment_of_psi (hψ : GoldbachConcrete.GaussianPsiSecondMoment) :
+  GoldbachConcrete.GaussianSecondMoment
+info: Goldbach/Check.lean:92:0: goldbach_short_interval_of_psi (hGaussianPsi : RiemannHypothesis → GoldbachConcrete.GaussianPsiSecondMoment) :
+  GoldbachConcrete.Target
+info: Goldbach/Check.lean:93:0: 'GoldbachArithmetic.primePowerError_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:94:0: 'GoldbachArithmetic.primePowerError_isLittleO' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:95:0: 'GoldbachConcrete.logWidth_scale_tendsto_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:96:0: 'GoldbachSpectrum.eventually_partialSum_sub_mean_square_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:97:0: 'GoldbachConcrete.gaussianSecondMoment_of_psi' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:98:0: 'goldbach_short_interval_of_psi' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:99:0: GoldbachZeros.gammaBracket_sub_log_le {t : ℝ} (ht : 1 ≤ t) :
+  |Zeta23.EF.gammaBracket t - Real.log t + Real.log (2 * Real.pi)| ≤ 20 / t ^ 2
+info: Goldbach/Check.lean:100:0: GoldbachZeros.integral_gammaBracket_shift_div_log {f : ℝ → ℝ} (hf : Integrable f volume)
+  (hlog : Integrable (fun u => |f u| * Real.log (3 + |u|)) volume) :
+  Tendsto (fun t => ∫ (u : ℝ), f u * (Zeta23.EF.gammaBracket (t + u) / Real.log t)) atTop (𝓝 (∫ (u : ℝ), f u))
+info: Goldbach/Check.lean:101:0: 'GoldbachZeros.integral_gammaBracket_shift_div_log' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:102:0: 'Zeta23.StirlingVert.re_digamma_stirling'' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:117:0: GoldbachZeros.translated_cell_tsum_bound : ∃ C,
+  0 < C ∧
+    ∀ (t : ℝ) (E : Set ℤ),
+      have q := fun ρ =>
+        E.indicator (fun x => GoldbachZeros.multiplicity ρ / (1 + (GoldbachZeros.ordinate ρ - t) ^ 2))
+          (GoldbachZeros.unitCell t ρ);
+      Summable q ∧
+        ∑' (ρ : ↑GoldbachZeros.Zeros), q ρ ≤
+          C * Real.log (|t| + 3) * ∑' (n : ℤ), E.indicator GoldbachZeros.unitEnvelope n
+info: Goldbach/Check.lean:118:0: @GoldbachZeros.gaussian_cell_tail_bound : ∀ {b : ℝ},
+  0 < b →
+    ∃ C,
+      0 < C ∧
+        ∀ (t : ℝ) (E : Set ℤ),
+          have g := fun ρ =>
+            E.indicator
+              (fun x => GoldbachZeros.multiplicity ρ * GoldbachGaussian.kernel b (t - GoldbachZeros.ordinate ρ))
+              (GoldbachZeros.unitCell t ρ);
+          Summable g ∧
+            ∑' (ρ : ↑GoldbachZeros.Zeros), g ρ ≤
+              C * Real.log (|t| + 3) * ∑' (n : ℤ), E.indicator GoldbachZeros.unitEnvelope n
+info: Goldbach/Check.lean:119:0: GoldbachZeros.translated_window_count_tendsto : RiemannHypothesis →
+  ∀ {r s : ℝ},
+    r < s → Tendsto (fun t => ↑(Zeta23.Ncount (t + r) (t + s)) / Real.log t) atTop (𝓝 ((s - r) / (2 * Real.pi)))
+info: Goldbach/Check.lean:120:0: GoldbachZeros.row_div_log_abs_tendsto_one : RiemannHypothesis →
+  ∀ {b : ℝ}, 0 < b → Tendsto (fun t => GoldbachZeros.row b t / Real.log |t|) (atTop ⊔ atBot) (𝓝 1)
+info: Goldbach/Check.lean:121:0: @GoldbachSpectrum.scaledWindowTest_tendsto : ∀ {a b : ℝ},
+  0 < a →
+    a ≤ b →
+      ∀ {f : ℝ → ℝ},
+        ContDiff ℝ 1 f →
+          Tendsto (fun T => GoldbachSpectrum.scaledWindowTest T a b f) atTop
+            (𝓝 ((∫ (u : ℝ) in Set.Ioc a b, f u) / (2 * Real.pi)))
+info: Goldbach/Check.lean:122:0: @GoldbachSpectrum.scaledEnergy_small_bound : ∀ {b : ℝ},
+  0 < b →
+    ∃ K,
+      0 ≤ K ∧
+        ∀ (r : ℝ),
+          0 < r →
+            r ≤ 1 →
+              ∀ᶠ (T : ℝ) in atTop,
+                ∑ ρ ∈ GoldbachZeros.zeroWindow 0 (r * T), GoldbachSpectrum.scaledEnergyTerm b T ρ ≤ K * r
+info: Goldbach/Check.lean:123:0: @GoldbachSpectrum.scaledEnergy_dyadic_tail_bound : ∀ {b : ℝ},
+  0 < b →
+    ∃ K,
+      0 ≤ K ∧
+        ∃ T₀,
+          3 ≤ T₀ ∧
+            ∀ T ≥ T₀,
+              ∀ (J : ℕ),
+                ∑' (ρ : ↑GoldbachZeros.Zeros),
+                    {ρ | 2 ^ J * T < GoldbachZeros.ordinate ρ}.indicator (GoldbachSpectrum.scaledEnergyTerm b T) ρ ≤
+                  K *
+                    (∑' (j : ℕ), GoldbachSpectrum.dyadicMajorant j -
+                      ∑ j ∈ Finset.range J, GoldbachSpectrum.dyadicMajorant j)
+info: Goldbach/Check.lean:124:0: GoldbachSpectrum.scaledWindowEnergy_tendsto : RiemannHypothesis →
+  ∀ {b a B : ℝ},
+    0 < b →
+      0 < a →
+        a ≤ B →
+          Tendsto (fun T => GoldbachSpectrum.scaledWindowEnergy b T a B) atTop
+            (𝓝 ((∫ (u : ℝ) in Set.Ioc a B, GoldbachSpectrum.profile 0 u) / (2 * Real.pi)))
+info: Goldbach/Check.lean:125:0: GoldbachSpectrum.weighted_spectral_asymptotic : RiemannHypothesis →
+  ∀ {b : ℝ},
+    0 < b →
+      Tendsto
+        (fun lam =>
+          (∑' (ρ : ↑GoldbachZeros.Zeros),
+              GoldbachSpectrum.diagonalEnergy b (fun σ => GoldbachSpectrum.coefficient lam (GoldbachZeros.ordinate σ))
+                ρ) /
+            (lam * Real.log (1 / lam) ^ 2))
+        (𝓝[>] 0) (𝓝 1)
+info: Goldbach/Check.lean:126:0: @GoldbachZeros.archimedean_positive_test : ∀ {k : ℝ → ℂ},
+  ContDiff ℝ 2 k →
+    HasCompactSupport k →
+      ∀ {a : ℝ},
+        0 < a →
+          (∀ v ≤ a, k v = 0) →
+            1 / (2 * ↑Real.pi) * ∫ (r : ℝ), Zeta23.paperFT k ↑r * ↑(Zeta23.EF.gammaBracket r) =
+              -∫ (v : ℝ) in Set.Ioi 0, k v * ↑(Real.exp (-v / 2) / (1 - Real.exp (-2 * v)))
+info: Goldbach/Check.lean:127:0: GoldbachSpectrum.smooth_vonMangoldt_positive : RiemannHypothesis →
+  ∀ {k : ℝ → ℂ},
+    ContDiff ℝ 2 k →
+      HasCompactSupport k →
+        ∀ {a B : ℝ},
+          0 < a →
+            a ≤ B →
+              (∀ v ≤ a, k v = 0) →
+                (∀ (v : ℝ), B < v → k v = 0) →
+                  ∑' (ρ : ↑GoldbachZeros.Zeros),
+                      ↑(GoldbachZeros.multiplicity ρ) * Zeta23.paperFT k ↑(GoldbachZeros.ordinate ρ) =
+                    (∫ (v : ℝ) in Set.Icc a B, k v * ↑(GoldbachSpectrum.positiveWeilKernel v)) -
+                      ∑ n ∈ Finset.Ioc 0 ⌊Real.exp B⌋₊, ↑(ArithmeticFunction.vonMangoldt n / √↑n) * k (Real.log ↑n)
+info: Goldbach/Check.lean:128:0: @GoldbachSpectrum.sharpWeilMoment : ∀ {a u lam B : ℝ},
+  0 < a →
+    a ≤ u →
+      0 < lam →
+        u + lam ≤ B →
+          ∫ (v : ℝ) in Set.Icc a B,
+              (Set.Ioc 0 lam).indicator (fun s => ↑(Real.exp (s / 2))) (v - u) *
+                ↑(GoldbachSpectrum.positiveWeilKernel v) =
+            ↑(Real.exp (-u / 2) *
+                (Real.exp (u + lam) - Real.exp u +
+                  (GoldbachArithmetic.trivialZeroTerm (Real.exp (u + lam)) -
+                    GoldbachArithmetic.trivialZeroTerm (Real.exp u))))
+info: Goldbach/Check.lean:129:0: @GoldbachSpectrum.paperFT_smoothLogBox : ∀ {lam : ℝ},
+  0 ≤ lam →
+    ∀ (n : ℕ) (g : ℝ),
+      Zeta23.paperFT (GoldbachSpectrum.smoothLogBox lam n) ↑g =
+        GoldbachSpectrum.mollifierMultiplier n g * GoldbachSpectrum.coefficient lam g
+info: Goldbach/Check.lean:130:0: @GoldbachSpectrum.local_weighted_spectral_tail : ∀ {b : ℝ},
+  0 < b →
+    ∀ (z : ℝ) (J : Set ℝ) (a : ↑GoldbachZeros.Zeros → ℂ) (aN : ℕ → ↑GoldbachZeros.Zeros → ℂ) (S : ℕ → ℝ → ℂ)
+      (F : ℝ → ℂ),
+      Summable (GoldbachSpectrum.diagonalEnergy b a) →
+        (∀ (n : ℕ) (ρ : ↑GoldbachZeros.Zeros), ‖aN n ρ‖ ≤ ‖a ρ‖) →
+          (∀ (ρ : ↑GoldbachZeros.Zeros), Tendsto (fun n => aN n ρ) atTop (𝓝 (a ρ))) →
+            (∀ (n : ℕ) (u : ℝ),
+                HasSum
+                  (fun ρ =>
+                    ↑(GoldbachZeros.multiplicity ρ) * aN n ρ * GoldbachGaussian.wave (GoldbachZeros.ordinate ρ) u)
+                  (S n u)) →
+              (∀ (n : ℕ), Measurable (S n)) →
+                Measurable F →
+                  (∀ᵐ (u : ℝ) ∂volume.restrict J, Tendsto (fun n => S n u) atTop (𝓝 (F u))) →
+                    ∀ (T : ℝ),
+                      IntegrableOn
+                          (fun u => GoldbachGaussian.weight b (u - z) * ‖F u - GoldbachSpectrum.partialSum a T u‖ ^ 2) J
+                          volume ∧
+                        ∫ (u : ℝ) in J,
+                            GoldbachGaussian.weight b (u - z) * ‖F u - GoldbachSpectrum.partialSum a T u‖ ^ 2 ≤
+                          ∑' (ρ : ↑GoldbachZeros.Zeros), GoldbachSpectrum.diagonalEnergy b a ρ -
+                            ∑ ρ ∈ GoldbachSpectrum.zerosUpTo T, GoldbachSpectrum.diagonalEnergy b a ρ
+info: Goldbach/Check.lean:131:0: GoldbachSpectrum.smoothedSum_tendsto_sharp : RiemannHypothesis →
+  ∀ {u lam : ℝ},
+    0 < u →
+      0 < lam →
+        (∀ (n : ℕ), u ≠ Real.log ↑n) →
+          (∀ (n : ℕ), u + lam ≠ Real.log ↑n) →
+            Tendsto (fun n => GoldbachSpectrum.smoothedSum✝ lam n u) atTop
+              (𝓝 ↑(GoldbachSpectrum.sharpSpectralValue lam u))
+info: Goldbach/Check.lean:132:0: GoldbachSpectrum.local_sharp_spectral_tail : RiemannHypothesis →
+  ∀ {b lam : ℝ},
+    0 < b →
+      0 < lam →
+        lam ≤ 1 →
+          ∀ (z : ℝ) (J : Set ℝ),
+            MeasurableSet J →
+              J ⊆ Set.Ioi 0 →
+                ∀ (T : ℝ),
+                  IntegrableOn
+                      (fun u =>
+                        GoldbachGaussian.weight b (u - z) *
+                          ‖↑(GoldbachSpectrum.sharpSpectralValue lam u) -
+                                GoldbachSpectrum.partialSum (GoldbachSpectrum.sharpCoefficient lam) T u‖ ^
+                            2)
+                      J volume ∧
+                    ∫ (u : ℝ) in J,
+                        GoldbachGaussian.weight b (u - z) *
+                          ‖↑(GoldbachSpectrum.sharpSpectralValue lam u) -
+                                GoldbachSpectrum.partialSum (GoldbachSpectrum.sharpCoefficient lam) T u‖ ^
+                            2 ≤
+                      ∑' (ρ : ↑GoldbachZeros.Zeros),
+                          GoldbachSpectrum.diagonalEnergy b (GoldbachSpectrum.sharpCoefficient lam) ρ -
+                        ∑ ρ ∈ GoldbachSpectrum.zerosUpTo T,
+                          GoldbachSpectrum.diagonalEnergy b (GoldbachSpectrum.sharpCoefficient lam) ρ
+info: Goldbach/Check.lean:133:0: GoldbachSpectrum.local_sharp_spectral_mean_square : RiemannHypothesis →
+  ∀ {b lam : ℝ},
+    0 < b →
+      0 < lam →
+        lam ≤ 1 →
+          ∀ (z : ℝ) (J : Set ℝ),
+            MeasurableSet J →
+              J ⊆ Set.Ioi 0 →
+                IntegrableOn
+                    (fun u => GoldbachGaussian.weight b (u - z) * GoldbachSpectrum.sharpSpectralValue lam u ^ 2) J
+                    volume ∧
+                  ∫ (u : ℝ) in J, GoldbachGaussian.weight b (u - z) * GoldbachSpectrum.sharpSpectralValue lam u ^ 2 ≤
+                    ∑' (ρ : ↑GoldbachZeros.Zeros),
+                      GoldbachSpectrum.diagonalEnergy b (GoldbachSpectrum.sharpCoefficient lam) ρ
+info: Goldbach/Check.lean:134:0: GoldbachSpectrum.sharp_spectral_identification : RiemannHypothesis →
+  ∀ {b lam : ℝ},
+    0 < b →
+      0 < lam →
+        lam ≤ 1 →
+          ∀ (z : ℝ) (J : Set ℝ),
+            MeasurableSet J →
+              J ⊆ Set.Ioi 0 →
+                Tendsto
+                  (fun T =>
+                    ∫ (u : ℝ) in J,
+                      GoldbachGaussian.weight b (u - z) *
+                        ‖↑(GoldbachSpectrum.sharpSpectralValue lam u) -
+                              GoldbachSpectrum.partialSum (GoldbachSpectrum.sharpCoefficient lam) T u‖ ^
+                          2)
+                  atTop (𝓝 0)
+info: Goldbach/Check.lean:135:0: GoldbachConcrete.gaussianPsiSecondMoment_of_RH : RiemannHypothesis → GoldbachConcrete.GaussianPsiSecondMoment
+info: Goldbach/Check.lean:136:0: goldbach_short_interval : RiemannHypothesis →
+  ∀ (c : ℝ),
+    1 < c →
+      ∃ X,
+        ∀ (x : ℝ),
+          X ≤ x → ∃ p q, Nat.Prime p ∧ Nat.Prime q ∧ Odd p ∧ Odd q ∧ x < ↑p + ↑q ∧ ↑p + ↑q ≤ x + c * Real.log x ^ 2
+info: Goldbach/Check.lean:137:0: 'GoldbachZeros.translated_cell_tsum_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:138:0: 'GoldbachZeros.gaussian_cell_tail_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:139:0: 'GoldbachZeros.translated_window_count_tendsto' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:140:0: 'GoldbachZeros.row_div_log_abs_tendsto_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:141:0: 'GoldbachSpectrum.scaledWindowTest_tendsto' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:142:0: 'GoldbachSpectrum.scaledEnergy_small_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:143:0: 'GoldbachSpectrum.scaledEnergy_dyadic_tail_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:144:0: 'GoldbachSpectrum.scaledWindowEnergy_tendsto' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:145:0: 'GoldbachSpectrum.weighted_spectral_asymptotic' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:146:0: 'GoldbachZeros.archimedean_positive_test' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:147:0: 'GoldbachSpectrum.smooth_vonMangoldt_positive' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:148:0: 'GoldbachSpectrum.sharpWeilMoment' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:149:0: 'GoldbachSpectrum.paperFT_smoothLogBox' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:150:0: 'GoldbachSpectrum.local_weighted_spectral_tail' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:151:0: 'GoldbachSpectrum.smoothedSum_tendsto_sharp' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:152:0: 'GoldbachSpectrum.local_sharp_spectral_tail' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:153:0: 'GoldbachSpectrum.local_sharp_spectral_mean_square' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:154:0: 'GoldbachSpectrum.sharp_spectral_identification' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:155:0: 'GoldbachConcrete.gaussianPsiSecondMoment_of_RH' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Check.lean:156:0: 'goldbach_short_interval' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [8808/8886] Replayed Goldbach.Explicit.CoefficientTail
+warning: Goldbach/Explicit/CoefficientTail.lean:72:55: This simp argument is unused:
+  one_mul
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [id_eq]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Goldbach/Explicit/CoefficientTail.lean:72:29: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Goldbach/Explicit/CoefficientTail.lean:72:19: 'funext z' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/CoefficientTail.lean:72:29: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/CoefficientTail.lean:116:36: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [8809/8886] Replayed Goldbach.Explicit.PrimeDiagonal
+warning: Goldbach/Explicit/PrimeDiagonal.lean:25:25: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [8813/8886] Replayed Goldbach.Explicit.LogMoments
+warning: Goldbach/Explicit/LogMoments.lean:77:65: Variable name `hC` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hC
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [8814/8886] Replayed Goldbach.Explicit.CountingDerivative
+warning: Goldbach/Explicit/CountingDerivative.lean:134:53: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Goldbach/Explicit/CountingDerivative.lean:134:43: 'funext u' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/CountingDerivative.lean:134:53: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/CountingDerivative.lean:263:56: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Goldbach/Explicit/CountingDerivative.lean:263:56: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [8815/8886] Replayed Goldbach.Explicit.PoleConstant
+warning: Goldbach/Explicit/PoleConstant.lean:25:94: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Goldbach/Explicit/PoleConstant.lean:33:6: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Goldbach/Explicit/PoleConstant.lean:68:64: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+⚠ [8818/8886] Replayed Zeta23.XiPrime.Statement
+warning: Zeta23/XiPrime/Statement.lean:365:69: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+ℹ [8821/8886] Replayed Zeta23.ThmE.GammaFactsChiProof
+info: Zeta23/ThmE/GammaFactsChiProof.lean:208:47: Try this:
+  [apply] ring_nf
+
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+info: Zeta23/ThmE/GammaFactsChiProof.lean:272:17: Try this:
+  [apply] ring_nf
+
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+⚠ [8822/8886] Replayed Zeta23.WeilEF.Effective
+warning: Zeta23/WeilEF/Effective.lean:624:30: This simp argument is unused:
+  Complex.div_re
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Complex.neg_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Zeta23/WeilEF/Effective.lean:669:14: This simp argument is unused:
+  Complex.norm_ofNat
+
+Hint: Omit it from the simp argument list.
+  [apply] simp
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Zeta23/WeilEF/Effective.lean:717:23: 'first
+| assumption
+| positivity' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Zeta23/WeilEF/Effective.lean:759:23: 'first
+| assumption
+| positivity' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Zeta23/WeilEF/Effective.lean:717:23: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Zeta23/WeilEF/Effective.lean:759:23: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Zeta23/WeilEF/Effective.lean:912:17: 'linarith' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Zeta23/WeilEF/Effective.lean:912:17: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+⚠ [8823/8886] Replayed Zeta23.XiPrime.Seam
+warning: Zeta23/XiPrime/Seam.lean:172:8: `ENat.coe_toNat` has been deprecated: Use `ENat.natCast_toNat` instead
+⚠ [8826/8886] Replayed Zeta23.Assembly
+warning: Zeta23/Assembly.lean:885:47: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/Assembly.lean:958:34: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+warning: Zeta23/Assembly.lean:962:90: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+⚠ [8828/8886] Replayed Goldbach.Explicit.PoleSum
+warning: Goldbach/Explicit/PoleSum.lean:26:77: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Goldbach/Explicit/PoleSum.lean:26:77: '(dsimp; ring)' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [8830/8886] Replayed Goldbach.Explicit.ZeroCount
+warning: Goldbach/Explicit/ZeroCount.lean:66:23: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Goldbach/Explicit/ZeroCount.lean:102:108: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Goldbach/Explicit/ZeroCount.lean:167:37: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [8836/8886] Replayed Goldbach.Explicit.NumericalBounds
+warning: Goldbach/Explicit/NumericalBounds.lean:30:64: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Goldbach/Explicit/NumericalBounds.lean:51:78: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [8839/8886] Replayed Goldbach.Explicit.CosineKernel
+warning: Goldbach/Explicit/CosineKernel.lean:41:88: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [8840/8886] Replayed Goldbach.Explicit.CosineRegularity
+warning: Goldbach/Explicit/CosineRegularity.lean:49:30: This simp argument is unused:
+  unitSlope
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [unitSecond, id_eq]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Goldbach/Explicit/CosineRegularity.lean:58:35: This simp argument is unused:
+  unitSlope
+
+Hint: Omit it from the simp argument list.
+  [apply] simp
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Goldbach/Explicit/CosineRegularity.lean:83:61: This simp argument is unused:
+  Function.comp_def
+
+Hint: Omit it from the simp argument list.
+  [apply] simp (config := { failIfUnchanged := false }) only [id_eq]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Goldbach/Explicit/CosineRegularity.lean:83:80: This simp argument is unused:
+  id_eq
+
+Hint: Omit it from the simp argument list.
+  [apply] simp (config := { failIfUnchanged := false }) only [Function.comp_def]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Goldbach/Explicit/CosineRegularity.lean:89:61: This simp argument is unused:
+  Function.comp_def
+
+Hint: Omit it from the simp argument list.
+  [apply] simp (config := { failIfUnchanged := false }) only [id_eq]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Goldbach/Explicit/CosineRegularity.lean:89:80: This simp argument is unused:
+  id_eq
+
+Hint: Omit it from the simp argument list.
+  [apply] simp (config := { failIfUnchanged := false }) only [Function.comp_def]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Goldbach/Explicit/CosineRegularity.lean:82:31: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Goldbach/Explicit/CosineRegularity.lean:84:34: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Goldbach/Explicit/CosineRegularity.lean:88:31: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Goldbach/Explicit/CosineRegularity.lean:90:34: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Goldbach/Explicit/CosineRegularity.lean:82:21: 'funext z' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/CosineRegularity.lean:82:31: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/CosineRegularity.lean:83:9: 'simp (config := { failIfUnchanged := false }) only [Function.comp_def, id_eq]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/CosineRegularity.lean:84:34: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/CosineRegularity.lean:88:21: 'funext z' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/CosineRegularity.lean:88:31: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/CosineRegularity.lean:89:9: 'simp (config := { failIfUnchanged := false }) only [Function.comp_def, id_eq]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/CosineRegularity.lean:90:34: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/CosineRegularity.lean:106:61: This simp argument is unused:
+  Function.comp_def
+
+Hint: Omit it from the simp argument list.
+  [apply] simp (config := { failIfUnchanged := false }) only [id_eq]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Goldbach/Explicit/CosineRegularity.lean:106:80: This simp argument is unused:
+  id_eq
+
+Hint: Omit it from the simp argument list.
+  [apply] simp (config := { failIfUnchanged := false }) only [Function.comp_def]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Goldbach/Explicit/CosineRegularity.lean:113:61: This simp argument is unused:
+  Function.comp_def
+
+Hint: Omit it from the simp argument list.
+  [apply] simp (config := { failIfUnchanged := false }) only [id_eq]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Goldbach/Explicit/CosineRegularity.lean:113:80: This simp argument is unused:
+  id_eq
+
+Hint: Omit it from the simp argument list.
+  [apply] simp (config := { failIfUnchanged := false }) only [Function.comp_def]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Goldbach/Explicit/CosineRegularity.lean:105:31: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Goldbach/Explicit/CosineRegularity.lean:107:34: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Goldbach/Explicit/CosineRegularity.lean:112:31: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Goldbach/Explicit/CosineRegularity.lean:114:34: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Goldbach/Explicit/CosineRegularity.lean:105:21: 'funext z' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/CosineRegularity.lean:105:31: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/CosineRegularity.lean:106:9: 'simp (config := { failIfUnchanged := false }) only [Function.comp_def, id_eq]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/CosineRegularity.lean:107:34: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/CosineRegularity.lean:112:21: 'funext z' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/CosineRegularity.lean:112:31: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/CosineRegularity.lean:113:9: 'simp (config := { failIfUnchanged := false }) only [Function.comp_def, id_eq]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/CosineRegularity.lean:114:34: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [8841/8886] Replayed Goldbach.Explicit.CosineFirstMoment
+warning: Goldbach/Explicit/CosineFirstMoment.lean:25:16: This simp argument is unused:
+  pow_zero
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [F, pow_one, one_pow, sub_self, zero_div, zero_add, mul_zero, Real.sin_pi, Real.cos_pi, mul_one]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Goldbach/Explicit/CosineFirstMoment.lean:25:26: This simp argument is unused:
+  pow_one
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [F, pow_zero, one_pow, sub_self, zero_div, zero_add, mul_zero, Real.sin_pi, Real.cos_pi, mul_one]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Goldbach/Explicit/CosineFirstMoment.lean:20:59: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Goldbach/Explicit/CosineFirstMoment.lean:22:37: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Goldbach/Explicit/CosineFirstMoment.lean:27:11: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Goldbach/Explicit/CosineFirstMoment.lean:20:49: 'funext z' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/CosineFirstMoment.lean:20:59: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [8845/8886] Replayed Goldbach.Explicit.CosineTransform
+warning: Goldbach/Explicit/CosineTransform.lean:30:2: Try this:
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+warning: Goldbach/Explicit/CosineTransform.lean:39:80: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Goldbach/Explicit/CosineTransform.lean:39:80: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/CosineTransform.lean:79:113: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Goldbach/Explicit/CosineTransform.lean:79:113: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/CosineTransform.lean:111:45: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Goldbach/Explicit/CosineTransform.lean:111:45: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [8846/8886] Replayed Goldbach.Explicit.CosineDecay
+warning: Goldbach/Explicit/CosineDecay.lean:30:49: Variable name `hV` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hV
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Goldbach/Explicit/CosineDecay.lean:162:10: This simp argument is unused:
+  norm_mul
+
+Hint: Omit it from the simp argument list.
+  [apply] simp
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: Goldbach/Explicit/CosineDecay.lean:199:22: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [8848/8886] Replayed Goldbach.Explicit.CosineMoment
+warning: Goldbach/Explicit/CosineMoment.lean:45:22: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Goldbach/Explicit/CosineMoment.lean:45:42: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Goldbach/Explicit/CosineMoment.lean:113:65: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Goldbach/Explicit/CosineMoment.lean:143:47: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Goldbach/Explicit/CosineMoment.lean:113:65: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [8852/8886] Replayed Goldbach.Explicit.SpectralTransfer
+warning: Goldbach/Explicit/SpectralTransfer.lean:18:67: Variable name `hab` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hab
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [8856/8886] Replayed Goldbach.Explicit.PrimeTrace
+warning: Goldbach/Explicit/PrimeTrace.lean:52:31: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Goldbach/Explicit/PrimeTrace.lean:53:85: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Goldbach/Explicit/PrimeTrace.lean:52:21: 'funext z' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/PrimeTrace.lean:52:31: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [8858/8886] Replayed Goldbach.Explicit.WeightedMangoldt
+warning: Goldbach/Explicit/WeightedMangoldt.lean:62:31: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Goldbach/Explicit/WeightedMangoldt.lean:86:51: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Goldbach/Explicit/WeightedMangoldt.lean:87:69: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Goldbach/Explicit/WeightedMangoldt.lean:86:41: 'funext u' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/WeightedMangoldt.lean:86:51: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Goldbach/Explicit/WeightedMangoldt.lean:87:69: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [8859/8886] Replayed Goldbach.Explicit.MainZeroSum
+warning: Goldbach/Explicit/MainZeroSum.lean:99:37: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Goldbach/Explicit/MainZeroSum.lean:99:37: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [8865/8886] Replayed Goldbach.Explicit.WeightedFirstMoment
+warning: Goldbach/Explicit/WeightedFirstMoment.lean:101:19: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [8869/8886] Replayed Goldbach.Explicit.PrimePowerVariance
+warning: Goldbach/Explicit/PrimePowerVariance.lean:112:55: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: Goldbach/Explicit/PrimePowerVariance.lean:150:28: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Goldbach/Explicit/PrimePowerVariance.lean:150:28: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+✔ [8907/8911] Built Goldbach.Explicit.IntervalCutoff (22s)
+✔ [8908/8911] Built Goldbach.Explicit.RemainingCoverage (22s)
+✔ [8909/8911] Built Goldbach.Explicit.CoefficientTwo (22s)
+✔ [8910/8911] Built Goldbach.Explicit (23s)
+ℹ [8911/8911] Built Goldbach.Explicit.Check (25s)
+info: Goldbach/Explicit/Check.lean:60:0: cosineWeight_even : ∀ (V : ℝ), Function.Even (cosineWeight V)
+info: Goldbach/Explicit/Check.lean:61:0: cosineWeight_hasCompactSupport : ∀ (V : ℝ), HasCompactSupport (cosineWeight V)
+info: Goldbach/Explicit/Check.lean:62:0: @cosineWeight_antitoneOn : ∀ {V : ℝ}, 0 < V → AntitoneOn (cosineWeight V) (Icc 0 V)
+info: Goldbach/Explicit/Check.lean:63:0: @cosineWeight_nonneg : ∀ {V : ℝ}, 0 < V → ∀ (v : ℝ), 0 ≤ cosineWeight V v
+info: Goldbach/Explicit/Check.lean:64:0: @cosineWeight_le_one : ∀ {V : ℝ}, 0 < V → ∀ (v : ℝ), cosineWeight V v ≤ 1
+info: Goldbach/Explicit/Check.lean:65:0: @cosineWeight_quadratic : ∀ {V : ℝ}, 0 < V → ∀ (v : ℝ), 1 - Real.pi ^ 2 * v ^ 2 / (2 * V ^ 2) ≤ cosineWeight V v
+info: Goldbach/Explicit/Check.lean:66:0: @continuous_cosineWeight : ∀ {V : ℝ}, 0 < V → Continuous (cosineWeight V)
+info: Goldbach/Explicit/Check.lean:67:0: @weighted_reflection_of_no_goldbach : ∀ {V x A d : ℝ},
+  0 < V →
+    0 < A →
+      0 < d →
+        ¬HasGoldbach x (d * x) →
+          (2 * ∫ (y : ℝ) in Icc A (x - A), reflectedWeight V x y * density d y) -
+              ∫ (y : ℝ) in Icc A (x - A), reflectedWeight V x y ≤
+            ∫ (y : ℝ) in Icc A (x - A), upperWeight V x y * (density d y - 1) ^ 2
+info: Goldbach/Explicit/Check.lean:68:0: gammaBracket_le_log_abs_add : ∀ (t : ℝ), Zeta23.EF.gammaBracket t ≤ Real.log (|t| + 5 / 2)
+info: Goldbach/Explicit/Check.lean:69:0: @gamma_average_le_log_add_three : ∀ {p : ℝ → ℝ} (t : ℝ),
+  (∀ (s : ℝ), 0 ≤ p s) →
+    Integrable p volume →
+      ∫ (s : ℝ), p s = 1 →
+        Integrable (fun s => p s * s ^ 2) volume →
+          ∫ (s : ℝ), p s * s ^ 2 ≤ 1 / 4 →
+            Integrable (fun s => p s * Zeta23.EF.gammaBracket (t + s)) volume →
+              ∫ (s : ℝ), p s * Zeta23.EF.gammaBracket (t + s) ≤ Real.log (|t| + 3)
+info: Goldbach/Explicit/Check.lean:70:0: reciprocal_zero_sum : RiemannHypothesis →
+  Summable reciprocalZeroTerm ∧
+    ∑' (ρ : ↑Zeros), reciprocalZeroTerm ρ = 2 + Real.eulerMascheroniConstant - Real.log (4 * Real.pi)
+info: Goldbach/Explicit/Check.lean:71:0: reciprocal_zero_sum_lt : RiemannHypothesis → ∑' (ρ : ↑Zeros), reciprocalZeroTerm ρ < 47 / 1000
+info: Goldbach/Explicit/Check.lean:72:0: ordinate_abs_gt_nine_halves : RiemannHypothesis → ∀ (ρ : ↑Zeros), 9 / 2 < |ordinate ρ|
+info: Goldbach/Explicit/Check.lean:73:0: inverse_square_zero_sum_lt : RiemannHypothesis →
+  (Summable fun ρ => GoldbachZeros.multiplicity ρ / ordinate ρ ^ 2) ∧
+    ∑' (ρ : ↑Zeros), GoldbachZeros.multiplicity ρ / ordinate ρ ^ 2 < 48 / 1000
+info: Goldbach/Explicit/Check.lean:74:0: margin_at_forty_two : 145 < margin 42
+info: Goldbach/Explicit/Check.lean:75:0: margin_strictMonoOn : StrictMonoOn margin (Ici 42)
+info: Goldbach/Explicit/Check.lean:76:0: @upper_expression_lt_lower_expression : ∀ {L : ℝ}, 42 ≤ L → (L - 2 * Real.log L) ^ 2 + 3 * L + 7 < L ^ 2 - 7 * L
+info: Goldbach/Explicit/Check.lean:77:0: cosine_loss_constant_lt : Real.pi ^ 2 / 6 * (Real.log 2 ^ 2 + 2 * Real.log 2 + 2) < 6361 / 1000
+info: Goldbach/Explicit/Check.lean:78:0: @delta_lt : ∀ {L : ℝ}, 42 ≤ L → delta L < 2 / 10 ^ 15
+info: Goldbach/Explicit/Check.lean:79:0: @delta_exp_bandwidth_lt : ∀ {L : ℝ}, 42 ≤ L → delta L * Real.exp (bandwidth L) < 1 / 10 ^ 8
+info: Goldbach/Explicit/Check.lean:80:0: @delta_exp_half_bandwidth_lt : ∀ {L : ℝ}, 42 ≤ L → delta L * Real.exp (bandwidth L / 2) < 1 / 10 ^ 11
+info: Goldbach/Explicit/Check.lean:82:0: 'GoldbachExplicit.cosineWeight_even' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:83:0: 'GoldbachExplicit.cosineWeight_hasCompactSupport' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:84:0: 'GoldbachExplicit.cosineWeight_antitoneOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:85:0: 'GoldbachExplicit.cosineWeight_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:86:0: 'GoldbachExplicit.cosineWeight_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:87:0: 'GoldbachExplicit.cosineWeight_quadratic' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:88:0: 'GoldbachExplicit.continuous_cosineWeight' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:89:0: 'GoldbachExplicit.weighted_reflection_of_no_goldbach' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:90:0: 'GoldbachExplicit.gammaBracket_le_log_abs_add' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:91:0: 'GoldbachExplicit.gamma_average_le_log_add_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:92:0: 'GoldbachExplicit.reciprocal_zero_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:93:0: 'GoldbachExplicit.reciprocal_zero_sum_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:94:0: 'GoldbachExplicit.ordinate_abs_gt_nine_halves' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:95:0: 'GoldbachExplicit.inverse_square_zero_sum_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:96:0: 'GoldbachExplicit.margin_at_forty_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:97:0: 'GoldbachExplicit.margin_strictMonoOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:98:0: 'GoldbachExplicit.upper_expression_lt_lower_expression' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:99:0: 'GoldbachExplicit.cosine_loss_constant_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:100:0: 'GoldbachExplicit.delta_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:101:0: 'GoldbachExplicit.delta_exp_bandwidth_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:102:0: 'GoldbachExplicit.delta_exp_half_bandwidth_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:104:0: cosineBump_hasCompactSupport : ∀ (V : ℝ), HasCompactSupport (cosineBump V)
+info: Goldbach/Explicit/Check.lean:105:0: @continuous_cosineBump : ∀ {V : ℝ}, 0 < V → Continuous (cosineBump V)
+info: Goldbach/Explicit/Check.lean:106:0: @cosineWeight_eq_autocorr : ∀ {V : ℝ},
+  0 < V → ∀ (v : ℝ), cosineWeight V v = 2 / V * Zeta23.Params.autocorr (cosineBump V) v
+info: Goldbach/Explicit/Check.lean:107:0: @cosineTransform_eq : ∀ {V : ℝ}, 0 < V → ∀ (z : ℂ), cosineTransform V z = ↑(2 / V) * bumpTransform V z ^ 2
+info: Goldbach/Explicit/Check.lean:108:0: @cosineTransform_ofReal_nonneg : ∀ {V : ℝ}, 0 < V → ∀ (t : ℝ), 0 ≤ (cosineTransform V ↑t).re
+info: Goldbach/Explicit/Check.lean:109:0: @norm_cosineTransform_pole_le : ∀ {V : ℝ},
+  0 < V →
+    ∀ (t σ : ℝ), |σ| = 1 / 2 → ‖cosineTransform V (↑t + ↑σ * Complex.I)‖ ≤ 8 * Real.exp (V / 2) / (V * (t ^ 2 + 1 / 4))
+info: Goldbach/Explicit/Check.lean:110:0: @cosineTransform_real_integral : ∀ {V : ℝ},
+  0 < V → Integrable (fun t => (cosineTransform V ↑t).re) volume ∧ ∫ (t : ℝ), (cosineTransform V ↑t).re = 2 * Real.pi
+info: Goldbach/Explicit/Check.lean:111:0: @cosineTransform_second_moment : ∀ {V : ℝ},
+  0 < V →
+    Integrable (fun t => GoldbachExplicit.K✝ V t * t ^ 2) volume ∧
+      ∫ (t : ℝ), GoldbachExplicit.K✝ V t * t ^ 2 = 2 * Real.pi * (Real.pi ^ 2 / V ^ 2)
+info: Goldbach/Explicit/Check.lean:112:0: @cosine_gamma_average_le : ∀ {V : ℝ},
+  2 * Real.pi ≤ V →
+    ∀ (t : ℝ),
+      Integrable (fun s => (cosineTransform V ↑s).re / (2 * Real.pi) * Zeta23.EF.gammaBracket (t + s)) volume ∧
+        ∫ (s : ℝ), (cosineTransform V ↑s).re / (2 * Real.pi) * Zeta23.EF.gammaBracket (t + s) ≤ Real.log (|t| + 3)
+info: Goldbach/Explicit/Check.lean:113:0: pole_contribution_lt_delta : RiemannHypothesis →
+  ∀ {L : ℝ}, 42 ≤ L → Summable (poleTerm L) ∧ ∑' (ρ : ↑Zeros), poleTerm L ρ < delta L
+info: Goldbach/Explicit/Check.lean:114:0: cumulative_zero_count_le : RiemannHypothesis →
+  ∀ {T : ℝ}, 0 ≤ T → |↑(Zeta23.Ncount 0 T) - zeroCountMain T| ≤ 250 * Real.log (T + 2)
+info: Goldbach/Explicit/Check.lean:115:0: compact_weight_spectral_identification : RiemannHypothesis →
+  ∀ {lam a b : ℝ},
+    0 < lam →
+      lam ≤ 1 →
+        0 < a →
+          a ≤ b →
+            ∀ {W : ℝ → ℝ},
+              Measurable W →
+                (∀ u ∈ Icc a b, 0 ≤ W u ∧ W u ≤ 1) →
+                  (∀ (T : ℝ),
+                      IntegrableOn
+                        (fun u =>
+                          W u *
+                            ‖↑(GoldbachSpectrum.sharpSpectralValue lam u) -
+                                  GoldbachSpectrum.partialSum (GoldbachSpectrum.sharpCoefficient lam) T u‖ ^
+                              2)
+                        (Icc a b) volume) ∧
+                    Filter.Tendsto
+                      (fun T =>
+                        ∫ (u : ℝ) in Icc a b,
+                          W u *
+                            ‖↑(GoldbachSpectrum.sharpSpectralValue lam u) -
+                                  GoldbachSpectrum.partialSum (GoldbachSpectrum.sharpCoefficient lam) T u‖ ^
+                              2)
+                      Filter.atTop (nhds 0)
+info: Goldbach/Explicit/Check.lean:116:0: @integral_cosine_norm_sq_le_schur : ∀ {ι : Type u_1} (s : Finset ι) {V : ℝ},
+  0 < V →
+    ∀ (z : ℝ) (γ m : ι → ℝ) (a : ι → ℂ),
+      (∀ (i : ι), 0 ≤ m i) →
+        ∫ (u : ℝ), cosineWeight V (u - z) * ‖∑ i ∈ s, ↑(m i) * a i * GoldbachGaussian.wave (γ i) u‖ ^ 2 ≤
+          ∑ i ∈ s, m i * ‖a i‖ ^ 2 * ∑ j ∈ s, m j * cosineKernel V (γ i - γ j)
+info: Goldbach/Explicit/Check.lean:117:0: @translated_inverseTest_diagonal : ∀ {lam : ℝ} {n m : ℕ},
+  0 ≤ lam →
+    2 ≤ n →
+      2 ≤ m →
+        lam * (↑n + 1) < 1 →
+          (inverseTest lam (Real.log ↑m - Real.log ↑n) + inverseTest lam (Real.log ↑m + Real.log ↑n)) / 2 =
+            if m = n then (Real.exp lam - 1) / 2 else 0
+info: Goldbach/Explicit/Check.lean:118:0: @inverseTest_paperFT : ∀ {lam : ℝ},
+  0 ≤ lam → ∀ (t : ℝ), Zeta23.paperFT (fun u => ↑(inverseTest lam u)) ↑t = ↑(‖GoldbachSpectrum.coefficient lam t‖ ^ 2)
+info: Goldbach/Explicit/Check.lean:119:0: @psi_sub_eq_vonMangoldt : ∀ {a b : ℝ} {n : ℕ},
+  0 < n →
+    0 ≤ a →
+      ↑n - 1 ≤ a → a < ↑n → ↑n ≤ b → b < ↑n + 1 → Chebyshev.psi b - Chebyshev.psi a = ArithmeticFunction.vonMangoldt n
+info: Goldbach/Explicit/Check.lean:120:0: @zero_window_integration_by_parts : ∀ {a b : ℝ} {f : ℝ → ℝ},
+  ContDiff ℝ 1 f →
+    ∑ ρ ∈ zeroWindow a b, GoldbachZeros.multiplicity ρ * f (ordinate ρ) =
+      f b * ↑(Zeta23.Ncount a b) - ∫ (t : ℝ) in Ioc a b, deriv f t * ↑(Zeta23.Ncount a t)
+info: Goldbach/Explicit/Check.lean:121:0: spectral_discrepancy_boundary_tendsto : RiemannHypothesis →
+  ∀ {lam : ℝ},
+    0 ≤ lam →
+      lam ≤ 1 →
+        Filter.Tendsto
+          (fun T =>
+            ‖GoldbachSpectrum.coefficient lam T‖ ^ 2 * Real.log (T + 3) * (↑(Zeta23.Ncount 0 T) - zeroCountMain T))
+          Filter.atTop (nhds 0)
+info: Goldbach/Explicit/Check.lean:122:0: prime_coefficient_lt : 624 / 100 / Real.pi ^ 2 < 633 / 1000
+info: Goldbach/Explicit/Check.lean:123:0: rational_tail_integral_coefficient_lt : (Real.log (2 * Real.pi) ^ 2 + 2 * Real.log (2 * Real.pi) + 2) / Real.pi ^ 2 < 1
+info: Goldbach/Explicit/Check.lean:125:0: 'GoldbachExplicit.cosineBump_hasCompactSupport' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:126:0: 'GoldbachExplicit.continuous_cosineBump' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:127:0: 'GoldbachExplicit.cosineWeight_eq_autocorr' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:128:0: 'GoldbachExplicit.cosineTransform_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:129:0: 'GoldbachExplicit.cosineTransform_ofReal_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:130:0: 'GoldbachExplicit.norm_cosineTransform_pole_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:131:0: 'GoldbachExplicit.cosineTransform_real_integral' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:132:0: 'GoldbachExplicit.cosineTransform_second_moment' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:133:0: 'GoldbachExplicit.cosine_gamma_average_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:134:0: 'GoldbachExplicit.pole_contribution_lt_delta' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:135:0: 'GoldbachExplicit.cumulative_zero_count_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:136:0: 'GoldbachExplicit.compact_weight_spectral_identification' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:137:0: 'GoldbachExplicit.integral_cosine_norm_sq_le_schur' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:138:0: 'GoldbachExplicit.translated_inverseTest_diagonal' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:139:0: 'GoldbachExplicit.inverseTest_paperFT' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:140:0: 'GoldbachExplicit.psi_sub_eq_vonMangoldt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:141:0: 'GoldbachExplicit.zero_window_integration_by_parts' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:142:0: 'GoldbachExplicit.spectral_discrepancy_boundary_tendsto' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:143:0: 'GoldbachExplicit.prime_coefficient_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:144:0: 'GoldbachExplicit.rational_tail_integral_coefficient_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:151:0: @integral_abs_sub_translate_le : ∀ {q : ℝ → ℝ} {a b c d : ℝ},
+  a ≤ c →
+    c ≤ b →
+      0 ≤ d →
+        MonotoneOn q (Iic c) →
+          AntitoneOn q (Ici c) →
+            (∀ s ≤ a, q s = 0) →
+              (∀ (s : ℝ), b ≤ s → q s = 0) →
+                q c ≤ 1 → Integrable (fun s => |q (s - d) - q s|) volume ∧ ∫ (s : ℝ), |q (s - d) - q s| ≤ 2 * d
+info: Goldbach/Explicit/Check.lean:152:0: @trimmed_log_weight_translation_le : ∀ {V x A lam : ℝ},
+  0 < V →
+    0 < A →
+      A ≤ x / 2 →
+        0 ≤ lam →
+          Integrable (fun s => |trimmedLogWeight V x A (s - lam) - trimmedLogWeight V x A s|) volume ∧
+            ∫ (s : ℝ), |trimmedLogWeight V x A (s - lam) - trimmedLogWeight V x A s| ≤ 2 * lam
+info: Goldbach/Explicit/Check.lean:153:0: 'GoldbachExplicit.integral_abs_sub_translate_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:154:0: 'GoldbachExplicit.trimmed_log_weight_translation_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:156:0: @reflected_weight_mass_ge : ∀ {V x A : ℝ},
+  0 < V →
+    0 < A →
+      A ≤ x / 2 →
+        x - 2 * A - Real.pi ^ 2 / (2 * V ^ 2) * (x * (Real.log 2 ^ 2 + 2 * Real.log 2 + 2)) ≤
+          ∫ (y : ℝ) in Icc A (x - A), reflectedWeight V x y
+info: Goldbach/Explicit/Check.lean:157:0: @weighted_firstMoment_abs_le : ∀ {V x A d E : ℝ},
+  0 < V →
+    2 ≤ A →
+      A ≤ x / 2 →
+        0 < d →
+          0 ≤ E →
+            (∀ t ∈ Icc A ((1 + d) * (x - A)), |Chebyshev.theta t - t| ≤ E) →
+              |∫ (y : ℝ) in Icc A (x - A), reflectedWeight V x y * (density d y - 1)| ≤ 2 * E
+info: Goldbach/Explicit/Check.lean:158:0: sharpSpectralValue_memLp : RiemannHypothesis →
+  ∀ {lam a b : ℝ},
+    0 < lam →
+      lam ≤ 1 →
+        0 < a → a ≤ b → MemLp (fun u => ↑(GoldbachSpectrum.sharpSpectralValue lam u)) 2 (volume.restrict (Icc a b))
+info: Goldbach/Explicit/Check.lean:159:0: sharp_spectral_integral_eq_tsum : RiemannHypothesis →
+  ∀ {lam a b : ℝ},
+    0 < lam →
+      lam ≤ 1 →
+        0 < a →
+          a ≤ b →
+            ∀ {W : ℝ → ℂ},
+              MemLp W 2 (volume.restrict (Icc a b)) →
+                (Summable fun ρ =>
+                    ↑(GoldbachZeros.multiplicity ρ) * GoldbachSpectrum.sharpCoefficient lam ρ *
+                      ∫ (u : ℝ) in Icc a b, W u * GoldbachGaussian.wave (ordinate ρ) u) →
+                  ∫ (u : ℝ) in Icc a b, W u * ↑(GoldbachSpectrum.sharpSpectralValue lam u) =
+                    ∑' (ρ : ↑Zeros),
+                      ↑(GoldbachZeros.multiplicity ρ) * GoldbachSpectrum.sharpCoefficient lam ρ *
+                        ∫ (u : ℝ) in Icc a b, W u * GoldbachGaussian.wave (ordinate ρ) u
+info: Goldbach/Explicit/Check.lean:160:0: coefficient_norm_le_inv_ordinate : ∀ (e g : ℝ),
+  0 < |g| → ‖GoldbachSpectrum.coefficient e g‖ ≤ (1 + Real.exp (e / 2)) / |g|
+info: Goldbach/Explicit/Check.lean:161:0: averagedLogPsiError_sub_abs_le : RiemannHypothesis →
+  ∀ {eps a u : ℝ},
+    0 ≤ eps →
+      eps ≤ 1 →
+        0 < a →
+          a ≤ u →
+            |averagedLogPsiError eps u - averagedLogPsiError eps a| ≤ 3 / 20 * (Real.exp (u / 2) + Real.exp (a / 2))
+info: Goldbach/Explicit/Check.lean:162:0: theta_exp_error_le : RiemannHypothesis →
+  ∀ {u : ℝ}, 16 ≤ u → |Chebyshev.theta (Real.exp u) - Real.exp u| ≤ 4 * Real.exp (3 * u / 4)
+info: Goldbach/Explicit/Check.lean:163:0: @first_moment_error_lt_trimmed_endpoint : ∀ {L : ℝ}, 42 ≤ L → 16 * Real.exp (3 * L / 4) < Real.exp L / L ^ 2
+info: Goldbach/Explicit/Check.lean:164:0: explicit_firstMoment_abs_lt : RiemannHypothesis →
+  ∀ {L : ℝ},
+    42 ≤ L →
+      |∫ (y : ℝ) in Icc (trimmedEndpoint L) (Real.exp L - trimmedEndpoint L),
+            reflectedWeight (bandwidth L) (Real.exp L) y * (density (delta L) y - 1)| <
+        trimmedEndpoint L / 2
+info: Goldbach/Explicit/Check.lean:165:0: explicit_variance_gt_of_no_goldbach : RiemannHypothesis →
+  ∀ {L : ℝ}, 42 ≤ L → ¬HasGoldbach (Real.exp L) (L ^ 2) → delta L * (L ^ 2 - 7 * L) < weightedVariance L
+info: Goldbach/Explicit/Check.lean:167:0: 'GoldbachExplicit.reflected_weight_mass_ge' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:168:0: 'GoldbachExplicit.weighted_firstMoment_abs_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:169:0: 'GoldbachExplicit.sharpSpectralValue_memLp' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:170:0: 'GoldbachExplicit.sharp_spectral_integral_eq_tsum' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:171:0: 'GoldbachExplicit.coefficient_norm_le_inv_ordinate' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:172:0: 'GoldbachExplicit.averagedLogPsiError_sub_abs_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:173:0: 'GoldbachExplicit.theta_exp_error_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:174:0: 'GoldbachExplicit.first_moment_error_lt_trimmed_endpoint' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:175:0: 'GoldbachExplicit.explicit_firstMoment_abs_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:176:0: 'GoldbachExplicit.explicit_variance_gt_of_no_goldbach' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:178:0: @contDiff_two_cosineWeight : ∀ {V : ℝ}, 0 < V → ContDiff ℝ 2 (cosineWeight V)
+info: Goldbach/Explicit/Check.lean:179:0: @cosineWeight_hasDerivAt_on : ∀ {V x : ℝ},
+  0 < V → x ∈ Icc 0 V → HasDerivAt (cosineWeight V) (-(Real.pi * (1 - x / V) * Real.sin (Real.pi * (x / V))) / V) x
+info: Goldbach/Explicit/Check.lean:180:0: cosine_row_formula : RiemannHypothesis →
+  ∀ {V : ℝ},
+    0 < V →
+      ∀ (t : ℝ),
+        (Summable fun ρ => GoldbachZeros.multiplicity ρ * cosineKernel V (t - ordinate ρ)) ∧
+          cosineRow V t =
+            (polePair V t).re + cosineArchimedean V t -
+              2 * ∑ n ∈ Finset.Ioc 0 ⌊Real.exp V⌋₊, cosinePrimeWeight V n * Real.cos (t * Real.log ↑n)
+info: Goldbach/Explicit/Check.lean:181:0: prime_trace_lower : RiemannHypothesis →
+  ∀ {lam : ℝ} {n : ℕ},
+    0 < lam →
+      lam ≤ 1 →
+        2 ≤ n →
+          Real.exp lam ≤ 4 / 3 →
+            (Real.exp lam - 1) * ↑n < 1 →
+              -(Real.exp lam - 1) * ArithmeticFunction.vonMangoldt n * Real.exp (-Real.log ↑n / 2) ≤
+                ∑' (ρ : ↑Zeros),
+                  GoldbachZeros.multiplicity ρ * ‖GoldbachSpectrum.sharpCoefficient lam ρ‖ ^ 2 *
+                    Real.cos (ordinate ρ * Real.log ↑n)
+info: Goldbach/Explicit/Check.lean:182:0: cosine_sharp_meanSquare_le : RiemannHypothesis →
+  ∀ {lam a b V : ℝ},
+    0 < lam →
+      lam ≤ 1 →
+        0 < a →
+          a ≤ b →
+            0 < V →
+              ∀ (z : ℝ),
+                Summable (cosineEnergy V lam) →
+                  ∫ (u : ℝ) in Icc a b, cosineWeight V (u - z) * ‖↑(GoldbachSpectrum.sharpSpectralValue lam u)‖ ^ 2 ≤
+                    ∑' (ρ : ↑Zeros), cosineEnergy V lam ρ
+info: Goldbach/Explicit/Check.lean:183:0: cosine_energy_le : RiemannHypothesis →
+  ∀ {L : ℝ},
+    42 ≤ L →
+      Summable (cosineEnergy (bandwidth L) (logWidth L)) ∧
+        ∑' (ρ : ↑Zeros), cosineEnergy (bandwidth L) (logWidth L) ρ <
+          archimedeanZeroSum (logWidth L) + delta L + 2 * delta L * weightedMangoldtSquares (bandwidth L)
+info: Goldbach/Explicit/Check.lean:184:0: @coefficient_sq_integral : ∀ {lam : ℝ},
+  0 ≤ lam →
+    lam ≤ 1 →
+      Integrable (fun t => ‖GoldbachSpectrum.coefficient lam t‖ ^ 2) volume ∧
+        ∫ (t : ℝ), ‖GoldbachSpectrum.coefficient lam t‖ ^ 2 = 2 * Real.pi * (Real.exp lam - 1)
+info: Goldbach/Explicit/Check.lean:185:0: @coefficient_sq_integral_positive : ∀ {lam : ℝ},
+  0 ≤ lam → lam ≤ 1 → ∫ (t : ℝ) in Ioi 0, ‖GoldbachSpectrum.coefficient lam t‖ ^ 2 = Real.pi * (Real.exp lam - 1)
+info: Goldbach/Explicit/Check.lean:186:0: log_pow_div_sq_integral : ∀ (k : ℕ),
+  IntegrableOn (fun t => Real.log t ^ k / t ^ 2) (Ioi 1) volume ∧
+    ∫ (t : ℝ) in Ioi 1, Real.log t ^ k / t ^ 2 = ↑k.factorial
+info: Goldbach/Explicit/Check.lean:187:0: log_sq_integral_near_zero : IntegrableOn (fun t => Real.log t ^ 2) (Ioc 0 1) volume ∧
+  ∫ (t : ℝ) in Ioc 0 1, Real.log t ^ 2 = 2
+info: Goldbach/Explicit/Check.lean:188:0: @integral_log_sq_le_of_envelope : ∀ {f : ℝ → ℝ},
+  Measurable f →
+    IntegrableOn f (Ioi 0) volume →
+      ∀ {B C : ℝ},
+        0 ≤ B →
+          0 ≤ C →
+            (∀ t > 0, 0 ≤ f t) →
+              (∀ t > 0, f t ≤ C) →
+                (∀ t > 0, f t ≤ 4 * C / t ^ 2) →
+                  IntegrableOn (fun t => f t * (B + Real.log t) ^ 2) (Ioi 0) volume ∧
+                    ∫ (t : ℝ) in Ioi 0, f t * (B + Real.log t) ^ 2 ≤
+                      (B ^ 2 * ∫ (t : ℝ) in Ioi 0, f t) + C * (8 * B + 10)
+info: Goldbach/Explicit/Check.lean:189:0: @coefficient_log_square_integral_le : ∀ {lam : ℝ},
+  0 < lam →
+    lam ≤ 1 →
+      IntegrableOn (fun t => ‖GoldbachSpectrum.coefficient lam t‖ ^ 2 * Real.log t ^ 2) (Ioi 0) volume ∧
+        ∫ (t : ℝ) in Ioi 0, ‖GoldbachSpectrum.coefficient lam t‖ ^ 2 * Real.log t ^ 2 ≤
+          Real.pi * (Real.exp lam - 1) * (-Real.log lam) ^ 2 + lam * Real.exp lam * (8 * -Real.log lam + 10)
+info: Goldbach/Explicit/Check.lean:191:0: 'GoldbachExplicit.contDiff_two_cosineWeight' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:192:0: 'GoldbachExplicit.cosineWeight_hasDerivAt_on' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:193:0: 'GoldbachExplicit.cosine_row_formula' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:194:0: 'GoldbachExplicit.prime_trace_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:195:0: 'GoldbachExplicit.cosine_sharp_meanSquare_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:196:0: 'GoldbachExplicit.cosine_energy_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:197:0: 'GoldbachExplicit.coefficient_sq_integral' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:198:0: 'GoldbachExplicit.coefficient_sq_integral_positive' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:199:0: 'GoldbachExplicit.log_pow_div_sq_integral' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:200:0: 'GoldbachExplicit.log_sq_integral_near_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:201:0: 'GoldbachExplicit.integral_log_sq_le_of_envelope' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:202:0: 'GoldbachExplicit.coefficient_log_square_integral_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:210:0: coefficient_sq_eq_quotient : ∀ (lam t : ℝ),
+  ‖GoldbachSpectrum.coefficient lam t‖ ^ 2 = sharpNumerator lam t / (t ^ 2 + 1 / 4)
+info: Goldbach/Explicit/Check.lean:211:0: contDiff_coefficient_sq : ∀ (lam : ℝ), ContDiff ℝ 1 fun t => ‖GoldbachSpectrum.coefficient lam t‖ ^ 2
+info: Goldbach/Explicit/Check.lean:212:0: @coefficient_sq_tail_le : ∀ {lam t : ℝ},
+  Real.exp (lam / 2) ≤ 11 / 10 → 0 < t → ‖GoldbachSpectrum.coefficient lam t‖ ^ 2 ≤ 5 / t ^ 2
+info: Goldbach/Explicit/Check.lean:213:0: @coefficient_sq_tail_deriv_le : ∀ {lam t : ℝ},
+  0 ≤ lam →
+    Real.exp (lam / 2) ≤ 11 / 10 →
+      0 < t → |deriv (fun s => ‖GoldbachSpectrum.coefficient lam s‖ ^ 2) t| ≤ 3 * lam / t ^ 2 + 10 / t ^ 3
+info: Goldbach/Explicit/Check.lean:214:0: @coefficient_sq_uniform_le : ∀ {lam : ℝ},
+  0 ≤ lam → ∀ (t : ℝ), ‖GoldbachSpectrum.coefficient lam t‖ ^ 2 ≤ lam ^ 2 * Real.exp lam
+info: Goldbach/Explicit/Check.lean:215:0: @coefficient_sq_uniform_deriv_le : ∀ {lam : ℝ},
+  0 ≤ lam → ∀ (t : ℝ), |deriv (fun s => ‖GoldbachSpectrum.coefficient lam s‖ ^ 2) t| ≤ lam ^ 3 * Real.exp lam
+info: Goldbach/Explicit/Check.lean:216:0: @counting_derivative_integral_le : ∀ {lam : ℝ},
+  0 < lam →
+    lam ≤ 1 / 10 →
+      IntegrableOn (countErrorIntegrand lam) (Ioi 0) volume ∧
+        ∫ (t : ℝ) in Ioi 0, countErrorIntegrand lam t ≤ 100 * lam ^ 2 * (Real.log lam⁻¹ + 1) ^ 2
+info: Goldbach/Explicit/Check.lean:217:0: zeroCountMain_hasDerivAt : ∀ (t : ℝ), HasDerivAt zeroCountMain (clippedZeroDensity t) t
+info: Goldbach/Explicit/Check.lean:218:0: @log_mul_clippedZeroDensity_le : ∀ {t : ℝ},
+  0 ≤ t → Real.log (t + 3) * clippedZeroDensity t ≤ Real.log t ^ 2 / (2 * Real.pi)
+info: Goldbach/Explicit/Check.lean:219:0: finite_logarithmic_zero_sum_le : RiemannHypothesis →
+  ∀ {lam T : ℝ},
+    0 < lam →
+      lam ≤ 1 / 10 →
+        0 ≤ T →
+          ∑ ρ ∈ zeroWindow 0 T, GoldbachZeros.multiplicity ρ * logarithmicCoefficient lam (ordinate ρ) ≤
+            logarithmicCoefficient lam T * (↑(Zeta23.Ncount 0 T) - zeroCountMain T) +
+                (∫ (t : ℝ) in Ioi 0, ‖GoldbachSpectrum.coefficient lam t‖ ^ 2 * Real.log t ^ 2) / (2 * Real.pi) +
+              250 * ∫ (t : ℝ) in Ioi 0, countErrorIntegrand lam t
+info: Goldbach/Explicit/Check.lean:220:0: @alternative_upper_lt_lower : ∀ {L : ℝ}, 42 ≤ L → (L - 2 * Real.log L) ^ 2 + 4 * L + 105 < L ^ 2 - 7 * L
+info: Goldbach/Explicit/Check.lean:221:0: @archimedean_expression_le : ∀ {L : ℝ},
+  42 ≤ L →
+    have lam := logWidth L;
+    have B := -Real.log lam;
+    (Real.exp lam - 1) * B ^ 2 + lam * Real.exp lam * (8 * B + 10) / Real.pi + 50000 * lam ^ 2 * (B + 1) ^ 2 ≤
+      delta L * ((L - 2 * Real.log L) ^ 2 + 8 / 3 * L + 5)
+info: Goldbach/Explicit/Check.lean:222:0: @integral_cosineWeight_first_moment : ∀ {V : ℝ}, 0 < V → ∫ (s : ℝ) in 0..V, s * cosineWeight V s = V ^ 2 / Real.pi ^ 2
+info: Goldbach/Explicit/Check.lean:223:0: @integral_cosineAbelWeight_le : ∀ {V : ℝ}, 1 ≤ V → ∫ (s : ℝ) in 0..V, cosineAbelWeight V s ≤ V ^ 2 / Real.pi ^ 2 + 1 / 2
+info: Goldbach/Explicit/Check.lean:224:0: @weightedMangoldtSquares_le : ∀ {V : ℝ},
+  1 ≤ V → weightedMangoldtSquares V ≤ Real.log 4 * (V ^ 2 / Real.pi ^ 2 + 1 / 2) + 32 + 192 * (Real.pi ^ 2 / V ^ 2)
+info: Goldbach/Explicit/Check.lean:225:0: @twice_weightedMangoldtSquares_le : ∀ {L : ℝ}, 42 ≤ L → 2 * weightedMangoldtSquares (bandwidth L) ≤ L + 98
+info: Goldbach/Explicit/Check.lean:226:0: archimedeanZeroSum_log_le : RiemannHypothesis →
+  ∀ {lam : ℝ},
+    0 < lam →
+      lam ≤ 1 / 10 →
+        archimedeanZeroSum lam ≤
+          (Real.exp lam - 1) * (-Real.log lam) ^ 2 + lam * Real.exp lam * (8 * -Real.log lam + 10) / Real.pi +
+            50000 * lam ^ 2 * (-Real.log lam + 1) ^ 2
+info: Goldbach/Explicit/Check.lean:227:0: archimedeanZeroSum_explicit_le : RiemannHypothesis →
+  ∀ {L : ℝ}, 42 ≤ L → archimedeanZeroSum (logWidth L) ≤ delta L * ((L - 2 * Real.log L) ^ 2 + 8 / 3 * L + 5)
+info: Goldbach/Explicit/Check.lean:228:0: cosine_energy_explicit_le : RiemannHypothesis →
+  ∀ {L : ℝ},
+    42 ≤ L →
+      Summable (cosineEnergy (bandwidth L) (logWidth L)) ∧
+        ∑' (ρ : ↑Zeros), cosineEnergy (bandwidth L) (logWidth L) ρ <
+          delta L * ((L - 2 * Real.log L) ^ 2 + 11 / 3 * L + 104)
+info: Goldbach/Explicit/Check.lean:229:0: @sq_lt_sqrt_trimmedEndpoint : ∀ {L : ℝ}, 42 ≤ L → L ^ 2 < √(trimmedEndpoint L)
+info: Goldbach/Explicit/Check.lean:230:0: @explicit_interval_endpoints : ∀ {L y : ℝ},
+  42 ≤ L → y ∈ Icc (trimmedEndpoint L) (Real.exp L - trimmedEndpoint L) → 2 ≤ y ∧ (1 + delta L) * y ≤ Real.exp L
+info: Goldbach/Explicit/Check.lean:231:0: @explicit_primePowerIncrement_le : ∀ {L y : ℝ},
+  42 ≤ L →
+    y ∈ Icc (trimmedEndpoint L) (Real.exp L - trimmedEndpoint L) →
+      0 ≤ GoldbachArithmetic.primePowerIncrement (delta L) y ∧
+        GoldbachArithmetic.primePowerIncrement (delta L) y ≤ L ^ 2
+info: Goldbach/Explicit/Check.lean:232:0: @primePowerIncrement_integral_div_sq_le : ∀ {d a b x : ℝ},
+  0 ≤ d →
+    0 < a →
+      (1 + d) * b ≤ x →
+        IntegrableOn (fun y => GoldbachArithmetic.primePowerIncrement d y / y ^ 2) (Icc a b) volume ∧
+          ∫ (y : ℝ) in Icc a b, GoldbachArithmetic.primePowerIncrement d y / y ^ 2 ≤
+            d * ∑ n ∈ Finset.Ioc ⌊a⌋₊ ⌊x⌋₊, GoldbachArithmetic.higherPrimePowerWeight n / ↑n
+info: Goldbach/Explicit/Check.lean:233:0: @reciprocal_higherPrimePowerWeight_le : ∀ {a b : ℝ},
+  1 ≤ a → a ≤ b → ∑ n ∈ Finset.Ioc ⌊a⌋₊ ⌊b⌋₊, GoldbachArithmetic.higherPrimePowerWeight n / ↑n ≤ 4 * Real.log b / √a
+info: Goldbach/Explicit/Check.lean:234:0: @explicit_primePower_error_lt : ∀ {L : ℝ},
+  42 ≤ L →
+    have x := Real.exp L;
+    have A := trimmedEndpoint L;
+    have d := delta L;
+    IntegrableOn (fun y => GoldbachArithmetic.primePowerIncrement d y ^ 2 / y ^ 2) (Icc A (x - A)) volume ∧
+      ∫ (y : ℝ) in Icc A (x - A), GoldbachArithmetic.primePowerIncrement d y ^ 2 / y ^ 2 < d / 100
+info: Goldbach/Explicit/Check.lean:235:0: @explicit_trivialZero_error_lt : ∀ {L : ℝ},
+  42 ≤ L →
+    have x := Real.exp L;
+    have A := trimmedEndpoint L;
+    have d := delta L;
+    have W := upperWeight (bandwidth L) x;
+    have f := fun y =>
+      W y * (GoldbachArithmetic.trivialZeroTerm ((1 + d) * y) - GoldbachArithmetic.trivialZeroTerm y) ^ 2 / y ^ 2;
+    IntegrableOn f (Icc A (x - A)) volume ∧ ∫ (y : ℝ) in Icc A (x - A), f y < d / 10 ^ 6
+info: Goldbach/Explicit/Check.lean:236:0: explicit_spectral_variance_lt : RiemannHypothesis →
+  ∀ {L : ℝ},
+    42 ≤ L →
+      have x := Real.exp L;
+      have A := trimmedEndpoint L;
+      have d := delta L;
+      ∫ (y : ℝ) in Icc A (x - A), upperWeight (bandwidth L) x y * GoldbachExplicit.spectralNumerator✝ d y ^ 2 / y ^ 2 <
+        d * ((L - 2 * Real.log L) ^ 2 + 11 / 3 * L + 104)
+info: Goldbach/Explicit/Check.lean:237:0: explicit_variance_lt : RiemannHypothesis →
+  ∀ {L : ℝ}, 42 ≤ L → weightedVariance L < delta L * ((L - 2 * Real.log L) ^ 2 + 4 * L + 105)
+info: Goldbach/Explicit/Check.lean:238:0: goldbach_short_interval_explicit_large : RiemannHypothesis →
+  ∀ (x : ℝ),
+    Real.exp 42 ≤ x → ∃ p q, Nat.Prime p ∧ Nat.Prime q ∧ Odd p ∧ Odd q ∧ x < ↑p + ↑q ∧ ↑p + ↑q ≤ x + Real.log x ^ 2
+info: Goldbach/Explicit/Check.lean:240:0: 'GoldbachExplicit.coefficient_sq_eq_quotient' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:241:0: 'GoldbachExplicit.contDiff_coefficient_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:242:0: 'GoldbachExplicit.coefficient_sq_tail_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:243:0: 'GoldbachExplicit.coefficient_sq_tail_deriv_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:244:0: 'GoldbachExplicit.coefficient_sq_uniform_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:245:0: 'GoldbachExplicit.coefficient_sq_uniform_deriv_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:246:0: 'GoldbachExplicit.counting_derivative_integral_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:247:0: 'GoldbachExplicit.zeroCountMain_hasDerivAt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:248:0: 'GoldbachExplicit.log_mul_clippedZeroDensity_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:249:0: 'GoldbachExplicit.finite_logarithmic_zero_sum_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:250:0: 'GoldbachExplicit.alternative_upper_lt_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:251:0: 'GoldbachExplicit.archimedean_expression_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:252:0: 'GoldbachExplicit.integral_cosineWeight_first_moment' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:253:0: 'GoldbachExplicit.integral_cosineAbelWeight_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:254:0: 'GoldbachExplicit.weightedMangoldtSquares_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:255:0: 'GoldbachExplicit.twice_weightedMangoldtSquares_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:256:0: 'GoldbachExplicit.archimedeanZeroSum_log_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:257:0: 'GoldbachExplicit.archimedeanZeroSum_explicit_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:258:0: 'GoldbachExplicit.cosine_energy_explicit_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:259:0: 'GoldbachExplicit.sq_lt_sqrt_trimmedEndpoint' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:260:0: 'GoldbachExplicit.explicit_interval_endpoints' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:261:0: 'GoldbachExplicit.explicit_primePowerIncrement_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:262:0: 'GoldbachExplicit.primePowerIncrement_integral_div_sq_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:263:0: 'GoldbachExplicit.reciprocal_higherPrimePowerWeight_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:264:0: 'GoldbachExplicit.explicit_primePower_error_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:265:0: 'GoldbachExplicit.explicit_trivialZero_error_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:266:0: 'GoldbachExplicit.explicit_spectral_variance_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:267:0: 'GoldbachExplicit.explicit_variance_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:268:0: 'goldbach_short_interval_explicit_large' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:282:0: def FiniteGoldbachExplicitRange : Prop :=
+∀ (n : ℕ), 6 ≤ n → ↑n < Real.exp 42 + 2 → Even n → ∃ p q, Nat.Prime p ∧ Nat.Prime q ∧ Odd p ∧ Odd q ∧ p + q = n
+info: Goldbach/Explicit/Check.lean:283:0: goldbach_short_interval_finite_of_finite : FiniteGoldbachExplicitRange →
+  ∀ {x : ℝ}, 5 ≤ x → x < Real.exp 42 → HasGoldbach x (Real.log x ^ 2)
+info: Goldbach/Explicit/Check.lean:284:0: finiteGoldbachExplicitRange_of_prime_representations : (∀ (n : ℕ),
+    6 ≤ n → n < 4000000000000000000 → Even n → ∃ p q, Nat.Prime p ∧ Nat.Prime q ∧ p + q = n) →
+  FiniteGoldbachExplicitRange
+info: Goldbach/Explicit/Check.lean:285:0: goldbach_short_interval_explicit_of_finite : RiemannHypothesis →
+  FiniteGoldbachExplicitRange →
+    ∀ (x : ℝ), 5 ≤ x → ∃ p q, Nat.Prime p ∧ Nat.Prime q ∧ Odd p ∧ Odd q ∧ x < ↑p + ↑q ∧ ↑p + ↑q ≤ x + Real.log x ^ 2
+info: Goldbach/Explicit/Check.lean:287:0: 'goldbach_short_interval_finite_of_finite' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:288:0: 'finiteGoldbachExplicitRange_of_prime_representations' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:289:0: 'goldbach_short_interval_explicit_of_finite' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:303:0: goldbach_short_interval_of_psi : (RiemannHypothesis → GaussianPsiSecondMoment) → Target
+info: Goldbach/Explicit/Check.lean:304:0: @goldbach_log_sq_coefficient_lower_bound : ∀ {C : ℝ},
+  (∀ (x : ℝ), 4 ≤ x → HasGoldbach x (C * Real.log x ^ 2)) → 2 / Real.log 4 ^ 2 ≤ C
+info: Goldbach/Explicit/Check.lean:305:0: goldbach_short_interval_max_of_explicit : (∀ (x : ℝ), 5 ≤ x → HasGoldbach x (Real.log x ^ 2)) →
+  ∀ (x : ℝ), 4 ≤ x → HasGoldbach x (max 2 (Real.log x ^ 2))
+info: Goldbach/Explicit/Check.lean:306:0: goldbach_log_sq_optimal_of_explicit : (∀ (x : ℝ), 5 ≤ x → HasGoldbach x (Real.log x ^ 2)) →
+  IsLeast {C | ∀ (x : ℝ), 4 ≤ x → HasGoldbach x (C * Real.log x ^ 2)} (2 / Real.log 4 ^ 2)
+info: Goldbach/Explicit/Check.lean:307:0: goldbach_short_interval_max_of_finite : RiemannHypothesis →
+  FiniteGoldbachExplicitRange → ∀ (x : ℝ), 4 ≤ x → HasGoldbach x (max 2 (Real.log x ^ 2))
+info: Goldbach/Explicit/Check.lean:308:0: goldbach_log_sq_optimal_of_finite : RiemannHypothesis →
+  FiniteGoldbachExplicitRange → IsLeast {C | ∀ (x : ℝ), 4 ≤ x → HasGoldbach x (C * Real.log x ^ 2)} (2 / Real.log 4 ^ 2)
+info: Goldbach/Explicit/Check.lean:310:0: 'goldbach_short_interval_of_psi' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:311:0: 'goldbach_log_sq_coefficient_lower_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:312:0: 'goldbach_short_interval_max_of_explicit' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:313:0: 'goldbach_log_sq_optimal_of_explicit' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:314:0: 'goldbach_short_interval_max_of_finite' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:315:0: 'goldbach_log_sq_optimal_of_finite' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:349:0: @prime_of_lucas_factorization : ∀ {n base : ℕ} {factors : List (ℕ × ℕ)},
+  (List.map (fun r => r.1 ^ r.2) factors).prod = n - 1 →
+    ↑base ^ (n - 1) = 1 → LucasFactorTests n base factors → Nat.Prime n
+info: Goldbach/Explicit/Check.lean:350:0: @interval_cover_of_check : ∀ {width left right : ℕ} {rows : List PairCertificate},
+  checkIntervalCover width right left rows = true → ∀ (x : ℝ), ↑left ≤ x → x < ↑right → HasGoldbach x ↑width
+info: Goldbach/Explicit/Check.lean:351:0: @prime_interval_cover_of_check : ∀ {width left right : ℕ} {rows : List CertifiedOddPrime},
+  checkPrimeIntervalCover width right left rows = true → ∀ (x : ℝ), ↑left ≤ x → x < ↑right → HasOddPrime x ↑width
+info: Goldbach/Explicit/Check.lean:352:0: @goldbach_interval_of_two_prime_covers : ∀ {a b c d width : ℝ},
+  (∀ (y : ℝ), a ≤ y → y < b → HasOddPrime y width) →
+    (∀ (z : ℝ), c ≤ z → z < d → HasOddPrime z (b - a)) → ∀ (x : ℝ), b + c ≤ x → x < b + d → HasGoldbach x width
+info: Goldbach/Explicit/Check.lean:353:0: goldbach_short_interval_certified_prefix : ∀ (x : ℝ), 5 ≤ x → x < 10000000 → HasGoldbach x (Real.log x ^ 2)
+info: Goldbach/Explicit/Check.lean:354:0: goldbach_short_interval_high_sample : ∀ (x : ℝ),
+  1000000000000000000 ≤ x → x < 1000000000000400000 → HasGoldbach x (Real.log x ^ 2)
+info: Goldbach/Explicit/Check.lean:355:0: goldbach_short_interval_high_two_ladders : ∀ (x : ℝ),
+  1000000000000000000 ≤ x → x < 1000000000102800000 → HasGoldbach x (Real.log x ^ 2)
+info: Goldbach/Explicit/Check.lean:356:0: goldbach_short_interval_explicit_of_interval_coverage : RiemannHypothesis →
+  FiniteGoldbachIntervalCoverage →
+    ∀ (x : ℝ), 5 ≤ x → ∃ p q, Nat.Prime p ∧ Nat.Prime q ∧ Odd p ∧ Odd q ∧ x < ↑p + ↑q ∧ ↑p + ↑q ≤ x + Real.log x ^ 2
+info: Goldbach/Explicit/Check.lean:357:0: def RemainingGoldbachIntervalCoverage : Prop :=
+(∀ (x : ℝ), 10000000 ≤ x → x < 1000000000000000000 → HasGoldbach x (Real.log x ^ 2)) ∧
+  ∀ (x : ℝ), 1000000000102800000 ≤ x → x < Real.exp 42 → HasGoldbach x (Real.log x ^ 2)
+info: Goldbach/Explicit/Check.lean:358:0: finiteGoldbachIntervalCoverage_of_remaining : RemainingGoldbachIntervalCoverage → FiniteGoldbachIntervalCoverage
+info: Goldbach/Explicit/Check.lean:359:0: goldbach_short_interval_explicit_of_remaining_intervals : RiemannHypothesis →
+  RemainingGoldbachIntervalCoverage →
+    ∀ (x : ℝ), 5 ≤ x → ∃ p q, Nat.Prime p ∧ Nat.Prime q ∧ Odd p ∧ Odd q ∧ x < ↑p + ↑q ∧ ↑p + ↑q ≤ x + Real.log x ^ 2
+info: Goldbach/Explicit/Check.lean:360:0: goldbach_short_interval_max_of_remaining_intervals : RiemannHypothesis →
+  RemainingGoldbachIntervalCoverage → ∀ (x : ℝ), 4 ≤ x → HasGoldbach x (max 2 (Real.log x ^ 2))
+info: Goldbach/Explicit/Check.lean:361:0: goldbach_log_sq_optimal_of_remaining_intervals : RiemannHypothesis →
+  RemainingGoldbachIntervalCoverage →
+    IsLeast {C | ∀ (x : ℝ), 4 ≤ x → HasGoldbach x (C * Real.log x ^ 2)} (2 / Real.log 4 ^ 2)
+info: Goldbach/Explicit/Check.lean:363:0: 'GoldbachExplicit.prime_of_lucas_factorization' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:364:0: 'GoldbachExplicit.interval_cover_of_check' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:365:0: 'GoldbachExplicit.prime_interval_cover_of_check' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:366:0: 'GoldbachExplicit.goldbach_interval_of_two_prime_covers' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:367:0: 'goldbach_short_interval_certified_prefix' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:368:0: 'goldbach_short_interval_high_sample' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:369:0: 'goldbach_short_interval_high_two_ladders' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:370:0: 'goldbach_short_interval_explicit_of_interval_coverage' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:371:0: 'finiteGoldbachIntervalCoverage_of_remaining' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:372:0: 'goldbach_short_interval_explicit_of_remaining_intervals' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:373:0: 'goldbach_short_interval_max_of_remaining_intervals' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:374:0: 'goldbach_log_sq_optimal_of_remaining_intervals' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:420:0: def RemainingGoldbachTwoIntervalCoverage : Prop :=
+(∀ (x : ℝ), 10000000 ≤ x → x < 1000000000000000000 → HasGoldbach x (2 * Real.log x ^ 2)) ∧
+  ∀ (x : ℝ), 1000000000102800000 ≤ x → x < Real.exp 42 → HasGoldbach x (2 * Real.log x ^ 2)
+info: Goldbach/Explicit/Check.lean:421:0: goldbach_short_interval_two_certified_prefix : ∀ (x : ℝ), 4 ≤ x → x < 10000000 → HasGoldbach x (2 * Real.log x ^ 2)
+info: Goldbach/Explicit/Check.lean:422:0: goldbach_short_interval_two_certified_high : ∀ (x : ℝ),
+  1000000000000000000 ≤ x → x < 1000000000102800000 → HasGoldbach x (2 * Real.log x ^ 2)
+info: Goldbach/Explicit/Check.lean:423:0: goldbach_short_interval_two_large : RiemannHypothesis → ∀ (x : ℝ), Real.exp 42 ≤ x → HasGoldbach x (2 * Real.log x ^ 2)
+info: Goldbach/Explicit/Check.lean:424:0: goldbach_short_interval_two_of_remaining_intervals : RiemannHypothesis →
+  RemainingGoldbachTwoIntervalCoverage → ∀ (x : ℝ), 4 ≤ x → HasGoldbach x (2 * Real.log x ^ 2)
+info: Goldbach/Explicit/Check.lean:425:0: goldbach_short_interval_two_of_finite : RiemannHypothesis →
+  FiniteGoldbachExplicitRange → ∀ (x : ℝ), 4 ≤ x → HasGoldbach x (2 * Real.log x ^ 2)
+info: Goldbach/Explicit/Check.lean:427:0: 'goldbach_short_interval_two_certified_prefix' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:428:0: 'goldbach_short_interval_two_certified_high' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:429:0: 'goldbach_short_interval_two_large' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:430:0: 'goldbach_short_interval_two_of_remaining_intervals' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:431:0: 'goldbach_short_interval_two_of_finite' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:452:0: @goldbach_log_sq_real_cover_iff_even : ∀ {a : ℕ} {b : ℝ},
+  1 ≤ a →
+    Even a →
+      ((∀ (x : ℝ), ↑a ≤ x → x < b → HasGoldbach x (Real.log x ^ 2)) ↔
+        ∀ (n : ℕ), a ≤ n → ↑n < b → Even n → HasGoldbach (↑n) (Real.log ↑n ^ 2))
+info: Goldbach/Explicit/Check.lean:453:0: goldbach_short_interval_certified_prefix_to_cutoff : ∀ (x : ℝ),
+  5 ≤ x → x < 1500000000000 → HasGoldbach x (Real.log x ^ 2)
+info: Goldbach/Explicit/Check.lean:454:0: goldbach_short_interval_explicit_of_exp28 : RiemannHypothesis →
+  ∀ (x : ℝ),
+    Real.exp 28 ≤ x → ∃ p q, Nat.Prime p ∧ Nat.Prime q ∧ Odd p ∧ Odd q ∧ x < ↑p + ↑q ∧ ↑p + ↑q ≤ x + Real.log x ^ 2
+info: Goldbach/Explicit/Check.lean:455:0: remainingGoldbachIntervalCoverage : RiemannHypothesis → RemainingGoldbachIntervalCoverage
+info: Goldbach/Explicit/Check.lean:456:0: goldbach_short_interval_explicit : RiemannHypothesis →
+  ∀ (x : ℝ), 5 ≤ x → ∃ p q, Nat.Prime p ∧ Nat.Prime q ∧ Odd p ∧ Odd q ∧ x < ↑p + ↑q ∧ ↑p + ↑q ≤ x + Real.log x ^ 2
+info: Goldbach/Explicit/Check.lean:457:0: goldbach_short_interval_max : RiemannHypothesis → ∀ (x : ℝ), 4 ≤ x → HasGoldbach x (max 2 (Real.log x ^ 2))
+info: Goldbach/Explicit/Check.lean:458:0: goldbach_log_sq_optimal : RiemannHypothesis →
+  IsLeast {C | ∀ (x : ℝ), 4 ≤ x → HasGoldbach x (C * Real.log x ^ 2)} (2 / Real.log 4 ^ 2)
+info: Goldbach/Explicit/Check.lean:460:0: 'GoldbachExplicit.prattModPow_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:461:0: 'GoldbachExplicit.prime_of_pratt_modular' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:462:0: 'goldbach_log_sq_real_cover_iff_even' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:463:0: 'goldbach_short_interval_certified_prefix_to_cutoff' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:464:0: 'goldbach_short_interval_explicit_of_exp28' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:465:0: 'remainingGoldbachIntervalCoverage' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:466:0: 'goldbach_short_interval_explicit' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:467:0: 'goldbach_short_interval_max' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Goldbach/Explicit/Check.lean:468:0: 'goldbach_log_sq_optimal' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (8911 jobs).
+Build exit 0, elapsed 00:02:06.7504184

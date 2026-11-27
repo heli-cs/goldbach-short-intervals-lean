@@ -1,0 +1,257 @@
+Dependency-specific kernel replay
+2026-11-25T15:40:11.7859598+09:00
+leanprover/lean4:v4.33.0-rc2
+Lean (version 4.33.0-rc2, x86_64-w64-windows-gnu, commit d8b18978322de05a8f3dba51ef03cf5461676c17, Release)
+Mathlib: 51e6992efd06126df61a496bebf8f49482a4e129
+Zeta23 zeta23: 11b6c7e3c927df2658f513b6b68ea7f8929c62c5
+
+# Numerical bounds
+2026-11-25T15:40:11.9376125+09:00
+Roots: #[GoldbachExplicit.margin_at_forty_two, GoldbachExplicit.margin_strictMonoOn, GoldbachExplicit.upper_expression_lt_lower_expression, GoldbachExplicit.cosine_loss_constant_lt, GoldbachExplicit.delta_lt, GoldbachExplicit.delta_exp_bandwidth_lt, GoldbachExplicit.delta_exp_half_bandwidth_lt]
+Dependency declarations: 27675
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:01:14.6027387
+
+# Compact weight
+2026-11-25T15:41:26.5614379+09:00
+Roots: #[GoldbachExplicit.cosineWeight_hasCompactSupport, GoldbachExplicit.cosineWeight_even, GoldbachExplicit.cosineWeight_antitoneOn, GoldbachExplicit.cosineWeight_nonneg, GoldbachExplicit.cosineWeight_le_one, GoldbachExplicit.continuous_cosineWeight, GoldbachExplicit.cosineWeight_quadratic, GoldbachExplicit.cosineBump_nonneg]
+Dependency declarations: 27023
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:01:21.2015337
+
+# Weighted reflection
+2026-11-25T15:42:47.7800077+09:00
+Roots: #[GoldbachExplicit.reflectedWeight_reflect, GoldbachExplicit.reflectedWeight_le_upperWeight, GoldbachExplicit.weighted_reflection_of_no_goldbach]
+Dependency declarations: 40813
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:01:36.8041319
+
+# Archimedean envelope
+2026-11-25T15:44:24.6016572+09:00
+Roots: #[GoldbachExplicit.gammaBracket_le_log_abs_add, GoldbachExplicit.gamma_average_le_log_add_three]
+Dependency declarations: 48976
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:01:56.4245699
+
+# Pole identity and numerical bound
+2026-11-25T15:46:21.0424165+09:00
+Roots: #[GoldbachExplicit.reciprocal_zero_sum, GoldbachExplicit.reciprocal_zero_sum_lt, GoldbachExplicit.ordinate_abs_gt_nine_halves, GoldbachExplicit.inverse_square_zero_sum_lt]
+Dependency declarations: 62798
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:02:55.4073332
+
+# Autocorrelation and complex Fourier transform
+2026-11-25T15:56:03.4084874+09:00
+Roots: #[GoldbachExplicit.cosineBump_even, GoldbachExplicit.cosineBump_hasCompactSupport, GoldbachExplicit.continuous_cosineBump, GoldbachExplicit.cosineWeight_eq_autocorr, GoldbachExplicit.cosineTransform_ofReal_nonneg, GoldbachExplicit.cosineTransform_eq, GoldbachExplicit.norm_bumpTransform_mul_freq_le, GoldbachExplicit.norm_cosineTransform_pole_le, GoldbachExplicit.cosineTransform_real_integral]
+Dependency declarations: 50411
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:02:13.5346452
+
+# Prime diagonal support
+2026-11-25T15:58:16.9907993+09:00
+Roots: #[GoldbachExplicit.log_locations_separated, GoldbachExplicit.translated_inverseTest_diagonal, GoldbachExplicit.psi_sub_eq_vonMangoldt]
+Dependency declarations: 26841
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:01:20.3362287
+
+# Effective cumulative zero count
+2026-11-25T16:01:47.8754258+09:00
+Roots: #[GoldbachExplicit.cumulative_zero_count_le]
+Dependency declarations: 63099
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:02:55.7096471
+
+# Compact spectral identification
+2026-11-25T16:04:43.6451735+09:00
+Roots: #[GoldbachExplicit.compact_weight_spectral_identification]
+Dependency declarations: 64107
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:03:02.9611476
+
+# Quantitative weighted pole contribution
+2026-11-25T16:04:27.4545061+09:00
+Roots: #[GoldbachExplicit.pole_contribution_lt_delta]
+Dependency declarations: 62912
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:03:02.6366401
+
+# Exact Fourier second moment and gamma convolution
+2026-11-25T16:10:49.4440932+09:00
+Roots: #[GoldbachExplicit.cosineTransform_second_moment, GoldbachExplicit.cosine_gamma_average_le]
+Dependency declarations: 53261
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:02:34.9101711
+
+# Finite cosine Schur estimate
+2026-11-25T16:13:24.3758769+09:00
+Roots: #[GoldbachExplicit.integral_cosine_norm_sq_le_schur]
+Dependency declarations: 42397
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:01:56.8037794
+
+# Finite Stieltjes identity and its signed boundary limit
+2026-11-25T16:15:35.3127813+09:00
+Roots: #[GoldbachExplicit.zero_window_integration_by_parts, GoldbachExplicit.spectral_discrepancy_boundary_tendsto]
+Dependency declarations: 63203
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:02:51.8773236
+
+# Second-test Fourier identity and two rational enclosures
+2026-11-25T16:18:27.2133324+09:00
+Roots: #[GoldbachExplicit.inverseTest_paperFT, GoldbachExplicit.prime_coefficient_lt, GoldbachExplicit.rational_tail_integral_coefficient_lt]
+Dependency declarations: 42580
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:01:51.8529268
+
+# Translation inequality for the actual trimmed reflected weight
+2026-11-25T16:20:50.5028391+09:00
+Roots: #[GoldbachExplicit.integral_abs_sub_translate_le, GoldbachExplicit.trimmed_log_weight_translation_le]
+Dependency declarations: 39721
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:01:52.2607784
+
+Dependency-specific Lean kernel replays
+
+# Reflected weight mass
+2026-11-26T15:52:04.0542363+09:00
+Roots: #[GoldbachExplicit.reflected_weight_mass_ge]
+Dependency declarations: 41329
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:05:54.1061683
+
+# Weighted first-moment reduction
+2026-11-26T15:57:58.1936869+09:00
+Roots: #[GoldbachExplicit.weighted_firstMoment_abs_le]
+Dependency declarations: 43860
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:01:32.1058293
+
+# Sharp spectral testing, averaged psi, effective theta and strict variance lower bound
+2026-11-26T15:59:30.3257281+09:00
+Roots: #[GoldbachExplicit.sharpSpectralValue_memLp, GoldbachExplicit.sharp_spectral_integral_eq_tsum, GoldbachExplicit.averagedLogPsiError_sub_abs_le, GoldbachExplicit.theta_exp_error_le, GoldbachExplicit.first_moment_error_lt_trimmed_endpoint, GoldbachExplicit.explicit_firstMoment_abs_lt, GoldbachExplicit.explicit_variance_gt_of_no_goldbach]
+Dependency declarations: 64846
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:02:27.4183800
+
+# Compact kernel joins, both spectral identities, and the Schur upper reduction
+2026-11-26T16:17:10.5386435+09:00
+Roots: #[GoldbachExplicit.contDiff_two_cosineWeight, GoldbachExplicit.cosineWeight_hasDerivAt_on, GoldbachExplicit.cosine_row_formula, GoldbachExplicit.prime_trace_lower, GoldbachExplicit.cosine_sharp_meanSquare_le, GoldbachExplicit.cosine_energy_le]
+Dependency declarations: 64741
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:01:46.0584480
+
+# Exact Fourier mass and the main logarithmic integral
+2026-11-26T16:24:58.5281597+09:00
+Roots: #[GoldbachExplicit.coefficient_sq_integral, GoldbachExplicit.coefficient_sq_integral_positive, GoldbachExplicit.log_pow_div_sq_integral, GoldbachExplicit.log_sq_integral_near_zero, GoldbachExplicit.integral_log_sq_le_of_envelope, GoldbachExplicit.coefficient_log_square_integral_le]
+Dependency declarations: 49870
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:01:11.1776201
+
+# Exact RH-only analytic-range theorem
+2026-11-26T17:02:36.4347407+09:00
+Roots: #[goldbach_short_interval_explicit_large]
+Dependency declarations: 65404
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:02:36.8134560
+
+# Exact finite premise and the all-range bridge
+2026-11-26T17:09:32.7213769+09:00
+Roots: #[goldbach_short_interval_finite_of_finite, finiteGoldbachExplicitRange_of_prime_representations, goldbach_short_interval_explicit_of_finite]
+Dependency declarations: 65413
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:02:39.0811007
+
+# Effective upper variance and arithmetic correction lemmas
+Module: Goldbach.Explicit.VarianceUpper
+2026-11-26T17:13:55.5517434+09:00
+Roots: #[GoldbachExplicit.counting_derivative_integral_le, GoldbachExplicit.log_mul_clippedZeroDensity_le, GoldbachExplicit.finite_logarithmic_zero_sum_le, GoldbachExplicit.archimedeanZeroSum_log_le, GoldbachExplicit.archimedeanZeroSum_explicit_le, GoldbachExplicit.twice_weightedMangoldtSquares_le, GoldbachExplicit.cosine_energy_explicit_le, GoldbachExplicit.explicit_interval_endpoints, GoldbachExplicit.explicit_primePowerIncrement_le, GoldbachExplicit.primePowerIncrement_integral_div_sq_le, GoldbachExplicit.reciprocal_higherPrimePowerWeight_le, GoldbachExplicit.explicit_primePower_error_lt, GoldbachExplicit.explicit_trivialZero_error_lt, GoldbachExplicit.explicit_spectral_variance_lt, GoldbachExplicit.explicit_variance_lt]
+Dependency declarations: 65346
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:02:12.3713487
+
+# Optimal coefficient and max width, conditional on exact finite range
+Module: Goldbach.Explicit.OptimalCoefficient
+2026-11-26T17:51:07.7313873+09:00
+Roots: #[goldbach_log_sq_coefficient_lower_bound, goldbach_short_interval_max_of_explicit, goldbach_log_sq_optimal_of_explicit, goldbach_short_interval_max_of_finite, goldbach_log_sq_optimal_of_finite]
+Dependency declarations: 65420
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:02:38.8682280
+
+# High sample and two-ladder certificate
+Module: Goldbach.Explicit.IntervalSample
+2026-11-26T18:30:56.3223823+09:00
+Roots: #[GoldbachExplicit.prime_of_lucas_factorization, GoldbachExplicit.prime_interval_cover_of_check, GoldbachExplicit.goldbach_interval_of_two_prime_covers, goldbach_short_interval_high_sample, goldbach_short_interval_high_two_ladders]
+Dependency declarations: 29881
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:01:47.3423545
+
+# Direct and two-ladder certified prefix
+Module: Goldbach.Explicit.IntervalPrefix
+2026-11-26T18:32:43.6896505+09:00
+Roots: #[GoldbachExplicit.interval_cover_of_check, goldbach_short_interval_certified_prefix]
+Dependency declarations: 31540
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:01:41.7040634
+
+# Exact all-range reductions with the two remaining interval premises
+Module: Goldbach.Explicit.RemainingCoverage
+2026-11-26T18:34:25.4141348+09:00
+Roots: #[goldbach_short_interval_explicit_of_interval_coverage, finiteGoldbachIntervalCoverage_of_remaining, goldbach_short_interval_explicit_of_remaining_intervals, goldbach_short_interval_max_of_remaining_intervals, goldbach_log_sq_optimal_of_remaining_intervals]
+Dependency declarations: 72505
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:03:31.1900623
+
+# Coefficient two from verified ranges and the two finite premises
+Module: Goldbach.Explicit.CoefficientTwo
+2026-11-26T19:02:53.6357504+09:00
+Roots: #[goldbach_short_interval_two_certified_prefix, goldbach_short_interval_two_certified_high, goldbach_short_interval_two_large, goldbach_short_interval_two_of_remaining_intervals, goldbach_short_interval_two_of_finite]
+Dependency declarations: 72507
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:03:05.1502996
+
+# Modular Pratt checker and the prefix through ten billion
+Module: Goldbach.Explicit.IntervalExtended
+Command: lake env lean --run Goldbach/Replay.lean Goldbach.Explicit.IntervalExtended GoldbachExplicit.prime_of_pratt_modular goldbach_short_interval_certified_prefix_to_ten_billion
+Roots: #[GoldbachExplicit.prime_of_pratt_modular, goldbach_short_interval_certified_prefix_to_ten_billion]
+Dependency declarations: 69892
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:14:19.6098336
+
+# Full-range coefficient-one theorem and both RH corollaries
+Module: Goldbach.Explicit.RemainingCoverage
+2026-11-27T12:26:15.5452494+09:00
+lake --packages=.lake/explicit-cache.json env lean --run Goldbach/Replay.lean Goldbach.Explicit.RemainingCoverage remainingGoldbachIntervalCoverage goldbach_short_interval_explicit goldbach_short_interval_max goldbach_log_sq_optimal goldbach_short_interval_certified_prefix_to_cutoff goldbach_short_interval_explicit_of_exp28 goldbach_log_sq_real_cover_iff_even
+Roots: #[remainingGoldbachIntervalCoverage, goldbach_short_interval_explicit, goldbach_short_interval_max, goldbach_log_sq_optimal, goldbach_short_interval_certified_prefix_to_cutoff, goldbach_short_interval_explicit_of_exp28, goldbach_log_sq_real_cover_iff_even]
+Dependency declarations: 478270
+Axioms: #[propext, Classical.choice, Quot.sound]
+Fresh kernel replay of the dependency closure passed.
+Replay exit 0, elapsed 00:26:25.0763588

@@ -1,0 +1,141 @@
+Earlier-cutoff interval certificate generation and measurements
+2026-11-27T11:39:01.1329733+09:00
+Python Python 3.14.4
+Lean (version 4.33.0-rc2, x86_64-w64-windows-gnu, commit d8b18978322de05a8f3dba51ef03cf5461676c17, Release)
+
+First extension, from 10000000 to 100000000
+python scripts/generate_interval_certificate.py Goldbach/Explicit/IntervalContinuationData.lean --name goldbach_continuation_prime_ladder --prime --block 3 151003 250 --block 9848997 99848997 151000
+[3, 151003), width 250, 625 rows, 40 shards
+[9848997, 99848997), width 151000, 597 rows, 38 shards
+2323 distinct prime proofs including factors
+1402142 source bytes in 0.068 s
+✔ [8700/8700] Built Goldbach.Explicit.IntervalContinuationData (306s)
+Build completed successfully (8700 jobs).
+Build exit 0, elapsed 00:06:38.5610799
+✔ [8704/8704] Built Goldbach.Explicit.IntervalContinuation (30s)
+Build completed successfully (8704 jobs).
+Build exit 0, elapsed 00:00:42.9148647
+Second extension, from 100000000 to 10000000000
+python scripts/generate_interval_certificate.py Goldbach/Explicit/IntervalExtendedInnerData.lean --prime --modular --name goldbach_extended_inner_ladder --block 3 1800003 330
+python scripts/generate_interval_certificate.py Goldbach/Explicit/IntervalExtendedOuterData.lean --prime --modular --name goldbach_extended_outer_ladder --block 98199997 9998199997 1800000
+[3, 1800003), width 330, 5615 rows, 351 shards
+8394 distinct prime proofs including factors
+2821996 source bytes in 0.233 s
+[98199997, 9998199997), width 1800000, 5501 rows, 344 shards
+12935 distinct prime proofs including factors
+4436557 source bytes in 0.815 s
+✔ [8701/8701] Built Goldbach.Explicit.IntervalExtendedInnerData (187s)
+Build exit 0, elapsed 00:03:22.9540870
+✔ [8701/8701] Built Goldbach.Explicit.IntervalExtendedOuterData (292s)
+Build exit 0, elapsed 00:05:08.5149269
+✔ [8708/8708] Built Goldbach.Explicit.IntervalExtended (80s)
+Build exit 0, elapsed 00:03:17.0250538
+Calibration on the original high sample, with identical prime rows
+python scripts/generate_interval_certificate.py .lake/RemainingC1HighBenchmark.lean --name goldbach_high_prime_ladder_benchmark --prime --modular --block 999999999999999997 1000000000000399997 1600 --block 3 102400003 400000
+lake --packages=.lake/explicit-cache.json env lean -DmaxRecDepth=4096 -o .lake/RemainingC1HighBenchmark.olean .lake/RemainingC1HighBenchmark.lean
+[999999999999999997, 1000000000000399997), width 1600, 256 rows, 16 shards
+[3, 102400003), width 400000, 257 rows, 17 shards
+2008 distinct prime proofs including factors
+605949 source bytes in 0.259 s
+Lean exit 0, elapsed 00:01:19.1686143
+Original high data .olean size 117850024 bytes
+Modular high data .olean size 13495288 bytes
+Final two-ladder data generation
+python scripts/generate_cutoff_cover.py
+[1800003, 5012503), width 510, 6433 rows, 403 shards
+10619 distinct prime proofs including factors
+3580133 source bytes in 0.320 s
+[5012503, 8225003), width 510, 6442 rows, 403 shards
+10989 distinct prime proofs including factors
+3711174 source bytes in 0.347 s
+[8225003, 11437503), width 510, 6447 rows, 403 shards
+11213 distinct prime proofs including factors
+3796637 source bytes in 0.363 s
+[11437503, 14650003), width 510, 6450 rows, 404 shards
+11534 distinct prime proofs including factors
+3908793 source bytes in 0.378 s
+[14650003, 17862503), width 510, 6452 rows, 404 shards
+11501 distinct prime proofs including factors
+3914151 source bytes in 0.378 s
+[17862503, 21075003), width 510, 6455 rows, 404 shards
+11673 distinct prime proofs including factors
+3965933 source bytes in 0.418 s
+[21075003, 24287503), width 510, 6455 rows, 404 shards
+11712 distinct prime proofs including factors
+3981047 source bytes in 0.393 s
+[24287503, 27500003), width 510, 6459 rows, 404 shards
+11862 distinct prime proofs including factors
+4031345 source bytes in 0.395 s
+[9972499997, 196222499997), width 27500000, 6773 rows, 424 shards
+17635 distinct prime proofs including factors
+6113453 source bytes in 1.474 s
+[196222499997, 382472499997), width 27500000, 6773 rows, 424 shards
+18372 distinct prime proofs including factors
+6385026 source bytes in 1.615 s
+[382472499997, 568722499997), width 27500000, 6773 rows, 424 shards
+18669 distinct prime proofs including factors
+6487072 source bytes in 1.711 s
+[568722499997, 754972499997), width 27500000, 6773 rows, 424 shards
+18849 distinct prime proofs including factors
+6550799 source bytes in 1.712 s
+[754972499997, 941222499997), width 27500000, 6773 rows, 424 shards
+19020 distinct prime proofs including factors
+6605571 source bytes in 2.240 s
+[941222499997, 1127472499997), width 27500000, 6773 rows, 424 shards
+19286 distinct prime proofs including factors
+6718314 source bytes in 2.224 s
+[1127472499997, 1313722499997), width 27500000, 6773 rows, 424 shards
+19271 distinct prime proofs including factors
+6728022 source bytes in 1.876 s
+[1313722499997, 1499972499997), width 27500000, 6773 rows, 424 shards
+19479 distinct prime proofs including factors
+6793050 source bytes in 1.809 s
+Generated-source SHA-256 hashes
+6809583698DD590770061F0516D0D5490243922F643F631B359EEBA85B00138A Inner0.lean
+890722F88CB0BBB75694C24A8D595B9ADEF90C85FD1CFBF40237149E0D4798AC Inner1.lean
+E342BEC5BFEB48F0E01630CB3BEF47FE2331D76390F53DCD7BE9A990693765E1 Inner2.lean
+05915B1D03589C986C9B7ED8F35538632FE07F340BF1E2343C15498FE93DC17D Inner3.lean
+A945C6B3F0CF27D43B7071F5693934246604E42C963F2D613DB499A5A03E1A7C Inner4.lean
+2CC75668BD9A43A3138D12EF722932C35DE449FE5349BBED81064B48603EB857 Inner5.lean
+39BF9F36D71E04D3F706826A303F7F50D0BA1D9D0F141D304F1785A1F0AA6543 Inner6.lean
+C602C6348BF9A05C50AFB8716D99CFFFE605234296E2063CA3AD1542B3FA8463 Inner7.lean
+F18F6DD63FE8C9F08F618595175C9E1A56E7E85871A9BD07DC94AC20F068F8DE Outer0.lean
+BE47E0ED00A277CD93C94876D12E8317C98AC414D4485F79B9A69278ACE5D204 Outer1.lean
+A90DA88092D001C7ACF640A7DA1427524A4058C329EA5F21BB06242E5CD9C5AD Outer2.lean
+E077398339609193F2607862AB46A05B20767C22169791ED086BE992DF929377 Outer3.lean
+9E6166F8F46229CBCBE820F90FCB915EBF150EB04301F79F9181475B4A436FF6 Outer4.lean
+6FD55FD99F67F3AA19DB8E6DCBF7C4BE91146EA9D4AE89E6B17326D4B6E69BA5 Outer5.lean
+2CEB8F1DB5C80AF3B2DE1BC5B75B942D4A240F33B095038B7A289DC319DD2555 Outer6.lean
+FFA2C907F98A9D6E384A58605247958B2DD8CBEF2F59367CC7EFBA5548C1343D Outer7.lean
+EF44E198F2B454A9105C0E7940E78BE7E59DF1D6943A8363BFEAD1B1085E26D8 IntervalContinuationData.lean
+2B158B5A2F1FC7EF6B941D9F670B80335A286C501D689985CF324247D0F594E5 IntervalExtendedInnerData.lean
+2145345CA70E844F1204E3CD6FBCEEFE0A357A58D7881E6139507204F45592C7 IntervalExtendedOuterData.lean
+
+Production block builds
+lake build +Goldbach.Explicit.CutoffData.Inner0 +Goldbach.Explicit.CutoffData.Outer0 +Goldbach.Explicit.CutoffData.Inner1 +Goldbach.Explicit.CutoffData.Outer1 +Goldbach.Explicit.CutoffData.Inner2 +Goldbach.Explicit.CutoffData.Outer2 +Goldbach.Explicit.CutoffData.Inner3 +Goldbach.Explicit.CutoffData.Outer3
+The second build uses the corresponding indices 4 through 7.
+✔ [8701/8708] Built Goldbach.Explicit.CutoffData.Outer0 (1080s)
+✔ [8702/8708] Built Goldbach.Explicit.CutoffData.Inner1 (1117s)
+✔ [8703/8708] Built Goldbach.Explicit.CutoffData.Outer1 (1117s)
+✔ [8704/8708] Built Goldbach.Explicit.CutoffData.Inner3 (1117s)
+✔ [8705/8708] Built Goldbach.Explicit.CutoffData.Outer2 (1118s)
+✔ [8706/8708] Built Goldbach.Explicit.CutoffData.Inner0 (1122s)
+✔ [8707/8708] Built Goldbach.Explicit.CutoffData.Inner2 (1122s)
+✔ [8708/8708] Built Goldbach.Explicit.CutoffData.Outer3 (1123s)
+Build exit 0, elapsed 00:18:56.5411004
+✔ [8701/8708] Built Goldbach.Explicit.CutoffData.Inner7 (671s)
+✔ [8702/8708] Built Goldbach.Explicit.CutoffData.Inner5 (672s)
+✔ [8703/8708] Built Goldbach.Explicit.CutoffData.Inner4 (860s)
+✔ [8704/8708] Built Goldbach.Explicit.CutoffData.Outer5 (861s)
+✔ [8705/8708] Built Goldbach.Explicit.CutoffData.Outer4 (869s)
+✔ [8706/8708] Built Goldbach.Explicit.CutoffData.Inner6 (869s)
+✔ [8707/8708] Built Goldbach.Explicit.CutoffData.Outer7 (870s)
+✔ [8708/8708] Built Goldbach.Explicit.CutoffData.Outer6 (871s)
+Build exit 0, elapsed 00:14:45.5791568
+16 source modules, 83270520 source bytes, 1780155616 .olean bytes
+51593 inner rows and 54184 outer rows, for a total of 105777. Both builds took 33 min 42.120 s in aggregate, or about 52.3 rows/s during the two waves.
+All sixteen source SHA-256 hashes reconcile with the generation log.
+
+Independent regeneration to a scratch directory
+Regeneration matched SHA-256 on all 16 sources in 19.830 s
+Regeneration exit 0

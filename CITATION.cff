@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "Please cite this software if you use it in your research."
+title: "Goldbach short intervals in Lean"
+type: software
+authors:
+  - family-names: Li
+    given-names: He
+version: 0.1.0
